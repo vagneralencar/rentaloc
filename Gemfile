@@ -5,7 +5,7 @@ ruby "3.2.2"
 # Rails e dependências principais
 gem "rails", "~> 7.1.3"
 gem "sprockets-rails"
-gem "sqlite3", "~> 1.4", group: :development
+gem "sqlite3", "~> 2.6", group: :development
 gem "pg", group: :production
 gem "puma", ">= 5.0"
 gem "jbuilder"

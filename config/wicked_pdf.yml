@@ -1,0 +1,54 @@
+default: &default
+  exe_path: <%= Gem.win_platform? ? Rails.root.join('bin', 'wkhtmltopdf.exe').to_s : '/usr/local/bin/wkhtmltopdf' %>
+  orientation: 'Portrait'
+  page_size: 'A4'
+  dpi: '300'
+  lowquality: false
+  zoom: 1
+  margin:
+    top: '10mm'
+    bottom: '10mm'
+    left: '10mm'
+    right: '10mm'
+  header:
+    content: null
+    spacing: 0
+  footer:
+    content: null
+    spacing: 0
+  font_family: 'Arial'
+  font_size: 12
+  image_quality: 100
+  enable_javascript: true
+  javascript_delay: 1000
+  disable_smart_shrinking: false
+  use_xserver: false
+  debug_javascript: false
+  quiet: true
+  cache: true
+  timeout: 30
+  encoding: UTF-8
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  javascript_delay: 0
+  no_pdf_compression: true
+  timeout: 5
+  use_xserver: false
+  print_media_type: true
+  disable_smart_shrinking: true
+  no_background: true
+  cache_dir: <%= Rails.root.join('tmp', 'wicked_pdf_cache').to_s %>
+
+production:
+  <<: *default
+  quiet: true
+  cache: true
+  timeout: 30
+  javascript_delay: 1000
+  print_media_type: true
+  use_xserver: true
+  window_status: 'ready' 

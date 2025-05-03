@@ -1,0 +1,67 @@
+<%= turbo_frame_tag "notification_#{notification.id}" do %>
+  <div class="notification-card">
+    <div class="flex justify-between items-start">
+      <div>
+        <h3 class="text-lg font-semibold"><%= notification.equipment_maintenance_alert.equipment.name %></h3>
+        <p class="text-sm text-gray-600"><%= notification.notification_type.titleize %></p>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="px-2 py-1 text-xs rounded-full <%= status_color(notification.status) %>">
+          <%= notification.status.titleize %>
+        </span>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <p class="text-sm text-gray-600">Mensagem</p>
+      <p class="mt-1"><%= notification.message %></p>
+    </div>
+
+    <div class="mt-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-sm text-gray-600">Enviado em</p>
+          <p class="font-medium"><%= notification.sent_at ? l(notification.sent_at, format: :short) : 'Pendente' %></p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-600">Lido em</p>
+          <p class="font-medium"><%= notification.read_at ? l(notification.read_at, format: :short) : 'Não lido' %></p>
+        </div>
+      </div>
+    </div>
+
+    <% if notification.error_message.present? %>
+      <div class="mt-4 p-2 bg-red-50 text-red-700 rounded">
+        <p class="text-sm"><%= notification.error_message %></p>
+      </div>
+    <% end %>
+
+    <div class="mt-4 flex justify-end space-x-2">
+      <% unless notification.read? %>
+        <%= button_to 'Marcar como lido', mark_as_read_equipment_maintenance_notification_path(notification),
+            method: :patch,
+            class: 'btn btn-sm btn-outline',
+            data: { turbo_frame: "notification_#{notification.id}" } %>
+      <% end %>
+      
+      <%= button_to 'Excluir', equipment_maintenance_notification_path(notification),
+          method: :delete,
+          class: 'btn btn-sm btn-danger',
+          data: { turbo_confirm: 'Tem certeza que deseja excluir esta notificação?' } %>
+    </div>
+  </div>
+<% end %>
+
+<%# Helper para cores de status %>
+<% def status_color(status) %>
+  <% case status %>
+  <% when 'pending' %>
+    <% 'bg-yellow-100 text-yellow-800' %>
+  <% when 'sent' %>
+    <% 'bg-green-100 text-green-800' %>
+  <% when 'failed' %>
+    <% 'bg-red-100 text-red-800' %>
+  <% when 'read' %>
+    <% 'bg-blue-100 text-blue-800' %>
+  <% end %>
+<% end %> 

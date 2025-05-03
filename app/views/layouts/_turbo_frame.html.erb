@@ -1,0 +1,19 @@
+<%# Layout base para Turbo Frames %>
+<div class="turbo-frame-container">
+  <%= turbo_frame_tag dom_id(resource) do %>
+    <div class="turbo-frame-content">
+      <%= yield %>
+    </div>
+  <% end %>
+</div>
+
+<%# Estilos para o container do Turbo Frame %>
+<style>
+  .turbo-frame-container {
+    @apply p-4 bg-white rounded-lg shadow-sm;
+  }
+  
+  .turbo-frame-content {
+    @apply space-y-4;
+  }
+</style> 

@@ -1,0 +1,95 @@
+<%= turbo_frame_tag "report_#{report.id}" do %>
+  <div class="report-card">
+    <div class="flex justify-between items-start">
+      <div>
+        <h3 class="text-lg font-semibold"><%= report.equipment.name %></h3>
+        <p class="text-sm text-gray-600"><%= report.report_type.titleize %></p>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="px-2 py-1 text-xs rounded-full <%= status_color(report.status) %>">
+          <%= status_text(report.status) %>
+        </span>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-sm text-gray-600">Período</p>
+          <p class="font-medium">
+            <%= l(report.start_date, format: :short) %> - <%= l(report.end_date, format: :short) %>
+          </p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-600">Gerado por</p>
+          <p class="font-medium"><%= report.generated_by.name %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-sm text-gray-600">Criado em</p>
+          <p class="font-medium"><%= l(report.created_at, format: :short) %></p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-600">Atualizado em</p>
+          <p class="font-medium"><%= l(report.updated_at, format: :short) %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 flex justify-end space-x-2">
+      <% if report.pdf.attached? %>
+        <%= link_to 'Visualizar PDF', equipment_maintenance_report_path(report, format: :pdf), 
+            class: 'btn btn-sm btn-outline',
+            target: '_blank' %>
+      <% elsif report.generated? %>
+        <%= link_to 'Gerar PDF', equipment_maintenance_report_path(report, format: :pdf), 
+            class: 'btn btn-sm btn-outline',
+            data: { turbo_frame: "report_#{report.id}" } %>
+      <% elsif report.failed? %>
+        <%= link_to 'Tentar Novamente', equipment_maintenance_report_path(report, format: :pdf), 
+            class: 'btn btn-sm btn-outline',
+            data: { turbo_frame: "report_#{report.id}" } %>
+      <% end %>
+      
+      <%= link_to 'Editar', edit_equipment_maintenance_report_path(report), 
+          class: 'btn btn-sm btn-outline',
+          data: { turbo_frame: "report_#{report.id}" } %>
+      
+      <%= button_to 'Excluir', equipment_maintenance_report_path(report),
+          method: :delete,
+          class: 'btn btn-sm btn-danger',
+          data: { turbo_confirm: 'Tem certeza que deseja excluir este relatório?' } %>
+    </div>
+  </div>
+<% end %>
+
+<%# Helpers para cores e textos de status %>
+<% def status_color(status) %>
+  <% case status %>
+  <% when 'draft' %>
+    <% 'bg-gray-100 text-gray-800' %>
+  <% when 'generated' %>
+    <% 'bg-green-100 text-green-800' %>
+  <% when 'failed' %>
+    <% 'bg-red-100 text-red-800' %>
+  <% when 'archived' %>
+    <% 'bg-blue-100 text-blue-800' %>
+  <% end %>
+<% end %>
+
+<% def status_text(status) %>
+  <% case status %>
+  <% when 'draft' %>
+    <% 'Rascunho' %>
+  <% when 'generated' %>
+    <% 'Gerado' %>
+  <% when 'failed' %>
+    <% 'Falha' %>
+  <% when 'archived' %>
+    <% 'Arquivado' %>
+  <% end %>
+<% end %> 

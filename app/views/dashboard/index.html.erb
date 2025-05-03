@@ -1,0 +1,179 @@
+<% content_for :title, "Dashboard" %>
+
+<!-- Info boxes -->
+<div class="row">
+  <div class="col-12 col-sm-6 col-md-3">
+    <div class="info-box">
+      <span class="info-box-icon bg-info elevation-1"><i class="fas fa-file-contract"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Locações Ativas</span>
+        <span class="info-box-number">10</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-md-3">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-success elevation-1"><i class="fas fa-money-bill-wave"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Receita Mensal</span>
+        <span class="info-box-number">R$ 50.000,00</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-md-3">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-tools"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">OS Pendentes</span>
+        <span class="info-box-number">5</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-md-3">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-exclamation-triangle"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Atrasos</span>
+        <span class="info-box-number">3</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Receita Mensal</h3>
+      </div>
+      <div class="card-body">
+        <div class="chart">
+          <canvas id="revenueChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Equipamentos Mais Locados</h3>
+      </div>
+      <div class="card-body">
+        <div class="chart">
+          <canvas id="equipmentChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Últimas Locações</h3>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table m-0">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Data</th>
+                <th>Valor</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Construtora ABC</td>
+                <td>01/05/2024</td>
+                <td>R$ 5.000,00</td>
+                <td><span class="badge badge-success">Ativo</span></td>
+              </tr>
+              <tr>
+                <td>Engenharia XYZ</td>
+                <td>30/04/2024</td>
+                <td>R$ 3.500,00</td>
+                <td><span class="badge badge-warning">Pendente</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Próximos Vencimentos</h3>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table m-0">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Vencimento</th>
+                <th>Valor</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Construtora ABC</td>
+                <td>05/05/2024</td>
+                <td>R$ 5.000,00</td>
+                <td><span class="badge badge-info">A Vencer</span></td>
+              </tr>
+              <tr>
+                <td>Engenharia XYZ</td>
+                <td>10/05/2024</td>
+                <td>R$ 3.500,00</td>
+                <td><span class="badge badge-info">A Vencer</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :scripts do %>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Gráfico de Receita
+    var revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    var revenueChart = new Chart(revenueCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+        datasets: [{
+          label: 'Receita',
+          data: [30000, 35000, 40000, 45000, 50000, 55000],
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+        }]
+      }
+    });
+
+    // Gráfico de Equipamentos
+    var equipmentCtx = document.getElementById('equipmentChart').getContext('2d');
+    var equipmentChart = new Chart(equipmentCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Betoneira', 'Andaime', 'Gerador', 'Outros'],
+        datasets: [{
+          data: [30, 25, 20, 25],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)'
+          ]
+        }]
+      }
+    });
+  </script>
+<% end %>

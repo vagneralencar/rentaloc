@@ -1,0 +1,34 @@
+:verbose: false
+:concurrency: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+:timeout: 25
+
+:queues:
+  - [critical, 2]
+  - [default, 1]
+  - [mailers, 1]
+  - [pdf, 1]
+  - [cleanup, 1]
+
+development:
+  :concurrency: 5
+
+test:
+  :concurrency: 1
+  :timeout: 5
+  :queues:
+    - [test_queue, 1]
+
+production:
+  :concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY") { 10 } %>
+  :timeout: <%= ENV.fetch("SIDEKIQ_TIMEOUT") { 8 } %>
+
+:scheduler:
+  :schedule:
+    cleanup_pdf:
+      cron: '0 0 * * *'  # Executar diariamente à meia-noite
+      class: CleanupPdfJob
+      queue: cleanup
+
+:redis:
+  url: redis://localhost:6379/0
+  namespace: gestaoloc 

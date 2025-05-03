@@ -1,0 +1,74 @@
+// Estilos base para cards
+.card {
+  @apply bg-white rounded-lg shadow-sm p-4;
+  
+  &-header {
+    @apply flex justify-between items-start mb-4;
+  }
+  
+  &-title {
+    @apply text-lg font-semibold;
+  }
+  
+  &-subtitle {
+    @apply text-sm text-gray-600;
+  }
+  
+  &-content {
+    @apply space-y-4;
+  }
+  
+  &-footer {
+    @apply mt-4 flex justify-end space-x-2;
+  }
+}
+
+// Estilos específicos para cada tipo de card
+.maintenance-card {
+  @extend .card;
+  
+  .status-badge {
+    @apply px-2 py-1 text-xs rounded-full;
+  }
+}
+
+.alert-card {
+  @extend .card;
+  
+  .priority-badge {
+    @apply px-2 py-1 text-xs rounded-full;
+  }
+}
+
+.notification-card {
+  @extend .card;
+  
+  .error-message {
+    @apply mt-4 p-2 bg-red-50 text-red-700 rounded;
+  }
+}
+
+.report-card {
+  @extend .card;
+  
+  .period {
+    @apply font-medium;
+  }
+}
+
+// Botões
+.btn {
+  @apply px-3 py-1.5 rounded text-sm font-medium transition-colors;
+  
+  &-sm {
+    @apply px-2 py-1 text-xs;
+  }
+  
+  &-outline {
+    @apply border border-gray-300 text-gray-700 hover:bg-gray-50;
+  }
+  
+  &-danger {
+    @apply bg-red-600 text-white hover:bg-red-700;
+  }
+} 

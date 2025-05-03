@@ -1,0 +1,74 @@
+<%= turbo_frame_tag "alert_#{alert.id}" do %>
+  <div class="alert-card">
+    <div class="flex justify-between items-start">
+      <div>
+        <h3 class="text-lg font-semibold"><%= alert.equipment.name %></h3>
+        <p class="text-sm text-gray-600"><%= alert.alert_type.titleize %></p>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="px-2 py-1 text-xs rounded-full <%= status_color(alert.status) %>">
+          <%= alert.status.titleize %>
+        </span>
+        <span class="px-2 py-1 text-xs rounded-full <%= priority_color(alert.priority) %>">
+          <%= alert.priority.titleize %>
+        </span>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <p class="text-sm text-gray-600">Mensagem</p>
+      <p class="mt-1"><%= alert.message %></p>
+    </div>
+
+    <div class="mt-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-sm text-gray-600">Data de Vencimento</p>
+          <p class="font-medium"><%= l(alert.due_date, format: :short) %></p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-600">Criado por</p>
+          <p class="font-medium"><%= alert.created_by.name %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 flex justify-end space-x-2">
+      <%= link_to 'Editar', edit_equipment_maintenance_alert_path(alert), 
+          class: 'btn btn-sm btn-outline',
+          data: { turbo_frame: "alert_#{alert.id}" } %>
+      
+      <%= button_to 'Excluir', equipment_maintenance_alert_path(alert),
+          method: :delete,
+          class: 'btn btn-sm btn-danger',
+          data: { turbo_confirm: 'Tem certeza que deseja excluir este alerta?' } %>
+    </div>
+  </div>
+<% end %>
+
+<%# Helpers para cores de status e prioridade %>
+<% def status_color(status) %>
+  <% case status %>
+  <% when 'pending' %>
+    <% 'bg-yellow-100 text-yellow-800' %>
+  <% when 'in_progress' %>
+    <% 'bg-blue-100 text-blue-800' %>
+  <% when 'completed' %>
+    <% 'bg-green-100 text-green-800' %>
+  <% when 'cancelled' %>
+    <% 'bg-red-100 text-red-800' %>
+  <% end %>
+<% end %>
+
+<% def priority_color(priority) %>
+  <% case priority %>
+  <% when 'low' %>
+    <% 'bg-gray-100 text-gray-800' %>
+  <% when 'medium' %>
+    <% 'bg-blue-100 text-blue-800' %>
+  <% when 'high' %>
+    <% 'bg-yellow-100 text-yellow-800' %>
+  <% when 'critical' %>
+    <% 'bg-red-100 text-red-800' %>
+  <% end %>
+<% end %> 

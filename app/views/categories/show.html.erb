@@ -1,0 +1,38 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Detalhes da Categoria</h1>
+      </div>
+      <div class="col-sm-6">
+        <div class="float-sm-right">
+          <%= link_to 'Editar', edit_category_path(@category), class: 'btn btn-warning' %>
+          <%= link_to 'Voltar', categories_path, class: 'btn btn-default' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <dl>
+              <dt>Nome:</dt>
+              <dd><%= @category.name %></dd>
+
+              <dt>Descrição:</dt>
+              <dd><%= @category.description %></dd>
+
+              <dt>Status:</dt>
+              <dd><%= @category.status %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> 

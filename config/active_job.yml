@@ -1,0 +1,30 @@
+default: &default
+  queue_adapter: :sidekiq
+  queue_name_prefix: gestaoloc
+  queue_name_delimiter: '_'
+  custom_queues:
+    default: 'default'
+    mailers: 'mailers'
+    pdf: 'pdf'
+    cleanup: 'cleanup'
+  logger:
+    enabled: true
+    path: log/active_job.log
+    level: info
+
+development:
+  <<: *default
+  queue_name_prefix: gestaoloc_development
+
+test:
+  <<: *default
+  queue_adapter: :test
+  queue_name_prefix: gestaoloc_test
+  logger:
+    enabled: false
+
+production:
+  <<: *default
+  queue_name_prefix: gestaoloc_production
+  logger:
+    level: warn 

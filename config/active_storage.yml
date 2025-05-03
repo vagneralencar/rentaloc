@@ -1,0 +1,46 @@
+default: &default
+  service: :local
+  service_urls_expire_in: 3600
+  service_urls_host: localhost:3000
+  service_urls_path: /rails/active_storage
+  service_urls_prefix: /rails/active_storage
+  service_urls_suffix: ''
+  service_urls_options:
+    disposition: inline
+    filename: null
+    content_type: null
+    content_disposition: null
+    content_length: null
+    content_encoding: null
+    content_language: null
+    content_location: null
+    content_md5: null
+    content_range: null
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  service: :test
+  service_urls_expire_in: 3600
+  service_urls_host: localhost:3000
+  service_urls_path: /rails/active_storage
+  service_urls_prefix: /rails/active_storage
+  service_urls_suffix: ''
+  service_urls_options:
+    disposition: inline
+    filename: null
+    content_type: null
+    content_disposition: null
+    content_length: null
+    content_encoding: null
+    content_language: null
+    content_location: null
+    content_md5: null
+    content_range: null
+
+production:
+  <<: *default
+  service: :amazon
+  service_urls_host: <%= ENV['ASSET_HOST'] %> 

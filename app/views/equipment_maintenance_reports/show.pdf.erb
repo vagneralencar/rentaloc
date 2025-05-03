@@ -1,0 +1,236 @@
+<% content_for :title do %>
+  Relatório de Manutenção - <%= @equipment_maintenance_report.equipment.name %>
+<% end %>
+
+<div class="report-info">
+  <h2>Informações do Equipamento</h2>
+  <table>
+    <tr>
+      <th>Nome</th>
+      <td><%= @equipment_maintenance_report.equipment.name %></td>
+      <th>Número de Série</th>
+      <td><%= @equipment_maintenance_report.equipment.serial_number %></td>
+    </tr>
+    <tr>
+      <th>Modelo</th>
+      <td><%= @equipment_maintenance_report.equipment.model %></td>
+      <th>Fabricante</th>
+      <td><%= @equipment_maintenance_report.equipment.manufacturer %></td>
+    </tr>
+    <tr>
+      <th>Data de Aquisição</th>
+      <td><%= l(@equipment_maintenance_report.equipment.acquisition_date, format: :long) if @equipment_maintenance_report.equipment.acquisition_date %></td>
+      <th>Status</th>
+      <td>
+        <span class="status-badge <%= @equipment_maintenance_report.equipment.status %>">
+          <%= @equipment_maintenance_report.equipment.status.titleize %>
+        </span>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="maintenance-details">
+  <h2>Detalhes da Manutenção</h2>
+  <table>
+    <tr>
+      <th>Tipo</th>
+      <td><%= @equipment_maintenance_report.maintenance_type.titleize %></td>
+      <th>Data</th>
+      <td><%= l(@equipment_maintenance_report.maintenance_date, format: :long) %></td>
+    </tr>
+    <tr>
+      <th>Status</th>
+      <td>
+        <span class="status-badge <%= @equipment_maintenance_report.status %>">
+          <%= @equipment_maintenance_report.status.titleize %>
+        </span>
+      </td>
+      <th>Responsável</th>
+      <td><%= @equipment_maintenance_report.performed_by.name %></td>
+    </tr>
+    <tr>
+      <th>Descrição</th>
+      <td colspan="3"><%= @equipment_maintenance_report.description %></td>
+    </tr>
+  </table>
+</div>
+
+<% if @equipment_maintenance_report.parts.any? %>
+  <div class="parts-list">
+    <h2>Peças Utilizadas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Quantidade</th>
+          <th>Valor Unitário</th>
+          <th>Valor Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @equipment_maintenance_report.parts.each do |part| %>
+          <tr>
+            <td><%= part.name %></td>
+            <td><%= part.quantity %></td>
+            <td><%= number_to_currency(part.unit_price) %></td>
+            <td><%= number_to_currency(part.total_price) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
+          <td><strong><%= number_to_currency(@equipment_maintenance_report.parts.sum(&:total_price)) %></strong></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+<% end %>
+
+<% if @equipment_maintenance_report.labors.any? %>
+  <div class="labors-list">
+    <h2>Mão de Obra</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Descrição</th>
+          <th>Horas</th>
+          <th>Valor/Hora</th>
+          <th>Valor Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @equipment_maintenance_report.labors.each do |labor| %>
+          <tr>
+            <td><%= labor.description %></td>
+            <td><%= labor.hours %></td>
+            <td><%= number_to_currency(labor.hourly_rate) %></td>
+            <td><%= number_to_currency(labor.total_amount) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
+          <td><strong><%= number_to_currency(@equipment_maintenance_report.labors.sum(&:total_amount)) %></strong></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+<% end %>
+
+<% if @equipment_maintenance_report.other_costs.any? %>
+  <div class="other-costs-list">
+    <h2>Outros Custos</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Descrição</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @equipment_maintenance_report.other_costs.each do |cost| %>
+          <tr>
+            <td><%= cost.cost_type.titleize %></td>
+            <td><%= cost.description %></td>
+            <td><%= number_to_currency(cost.amount) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2" style="text-align: right;"><strong>Total:</strong></td>
+          <td><strong><%= number_to_currency(@equipment_maintenance_report.other_costs.sum(&:amount)) %></strong></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+<% end %>
+
+<div class="total-costs">
+  <h2>Resumo de Custos</h2>
+  <table>
+    <tr>
+      <th>Total de Peças</th>
+      <td><%= number_to_currency(@equipment_maintenance_report.parts.sum(&:total_price)) %></td>
+    </tr>
+    <tr>
+      <th>Total de Mão de Obra</th>
+      <td><%= number_to_currency(@equipment_maintenance_report.labors.sum(&:total_amount)) %></td>
+    </tr>
+    <tr>
+      <th>Total de Outros Custos</th>
+      <td><%= number_to_currency(@equipment_maintenance_report.other_costs.sum(&:amount)) %></td>
+    </tr>
+    <tr>
+      <th>Total Geral</th>
+      <td>
+        <strong>
+          <%= number_to_currency(
+            @equipment_maintenance_report.parts.sum(&:total_price) +
+            @equipment_maintenance_report.labors.sum(&:total_amount) +
+            @equipment_maintenance_report.other_costs.sum(&:amount)
+          ) %>
+        </strong>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<% if @equipment_maintenance_report.notes.present? %>
+  <div class="notes">
+    <h2>Observações</h2>
+    <p><%= @equipment_maintenance_report.notes %></p>
+  </div>
+<% end %>
+
+<div class="signatures">
+  <div class="signature-block">
+    <p>Responsável Técnico</p>
+    <div class="signature-line"></div>
+    <p><%= @equipment_maintenance_report.performed_by.name %></p>
+  </div>
+  
+  <div class="signature-block">
+    <p>Supervisor</p>
+    <div class="signature-line"></div>
+    <p><%= @equipment_maintenance_report.created_by.name %></p>
+  </div>
+</div>
+
+<style>
+  .signatures {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+  }
+
+  .signature-block {
+    width: 45%;
+    text-align: center;
+  }
+
+  .signature-line {
+    border-top: 1px solid #000;
+    margin: 50px 0 10px;
+  }
+
+  h2 {
+    color: #2c3e50;
+    font-size: 18px;
+    margin: 20px 0 10px;
+  }
+
+  .report-info,
+  .maintenance-details,
+  .parts-list,
+  .labors-list,
+  .other-costs-list,
+  .total-costs,
+  .notes {
+    margin-bottom: 30px;
+  }
+</style> 

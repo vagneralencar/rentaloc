@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Erro na Geração do Relatório de Manutenção</h1>
+    
+    <p>Olá <%= @user.name %>,</p>
+    
+    <p>Ocorreu um erro ao gerar o relatório de manutenção para o equipamento <strong><%= @equipment.name %></strong>.</p>
+    
+    <h2>Detalhes do Erro:</h2>
+    <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; margin: 10px 0;">
+      <%= @error_message %>
+    </div>
+    
+    <h2>Detalhes do Relatório:</h2>
+    <ul>
+      <li><strong>Equipamento:</strong> <%= @equipment.name %></li>
+      <li><strong>Tipo:</strong> <%= @report.report_type.titleize %></li>
+      <li><strong>Período:</strong> <%= l(@report.start_date, format: :short) %> - <%= l(@report.end_date, format: :short) %></li>
+      <li><strong>Status:</strong> <%= @report.status.titleize %></li>
+    </ul>
+    
+    <p>Por favor, tente gerar o relatório novamente ou entre em contato com o suporte técnico.</p>
+    
+    <p>Para acessar o relatório no sistema, clique no link abaixo:</p>
+    <p>
+      <%= link_to 'Visualizar Relatório', equipment_maintenance_report_url(@report) %>
+    </p>
+    
+    <p>Atenciosamente,<br>Sistema de Gestão de Manutenção</p>
+  </body>
+</html> 

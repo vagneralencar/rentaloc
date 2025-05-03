@@ -1,0 +1,83 @@
+default: &default
+  delivery_method: :smtp
+  perform_deliveries: true
+  raise_delivery_errors: true
+  default_url_options:
+    protocol: http
+  smtp_settings:
+    address: <%= ENV['SMTP_ADDRESS'] %>
+    port: <%= ENV['SMTP_PORT'] %>
+    domain: <%= ENV['SMTP_DOMAIN'] %>
+    user_name: <%= ENV['SMTP_USERNAME'] %>
+    password: <%= ENV['SMTP_PASSWORD'] %>
+    authentication: plain
+    enable_starttls_auto: true
+  default_charset: utf-8
+  default_content_type: text/html
+  default_from: noreply@example.com
+  default_reply_to: noreply@example.com
+  default_return_path: noreply@example.com
+  default_sender: noreply@example.com
+  default_to: noreply@example.com
+  default_cc: noreply@example.com
+  default_bcc: noreply@example.com
+  default_subject: Relatório de Manutenção
+  default_body: Segue em anexo o relatório de manutenção solicitado.
+  default_template: equipment_maintenance_reports/show
+  default_layout: pdf
+  default_format: pdf
+  default_locale: :'pt-BR'
+  default_time_zone: Brasilia
+  asset_host: http://localhost:3000
+  asset_path: /assets
+  asset_prefix: /assets
+  asset_digest: true
+  asset_debug: false
+  asset_cache: true
+  asset_cache_store: :file_store
+  asset_cache_path: tmp/cache/assets
+  asset_cache_prefix: assets
+  asset_cache_digest: true
+  asset_cache_debug: false
+
+development:
+  <<: *default
+  delivery_method: :letter_opener
+  default_url_options:
+    host: localhost
+    port: 3000
+
+test:
+  <<: *default
+  delivery_method: :test
+  default_url_options:
+    host: localhost
+    port: 3000
+  perform_deliveries: true
+  raise_delivery_errors: true
+  asset_host: null
+  asset_path: null
+  asset_prefix: null
+  asset_digest: false
+  asset_debug: false
+  asset_cache: false
+  asset_cache_store: null
+  asset_cache_path: null
+  asset_cache_prefix: null
+  asset_cache_digest: false
+  asset_cache_debug: false
+
+production:
+  <<: *default
+  default_url_options:
+    host: <%= ENV['APP_HOST'] %>
+    protocol: https
+  smtp_settings:
+    address: <%= ENV['SMTP_ADDRESS'] %>
+    port: <%= ENV['SMTP_PORT'] %>
+    domain: <%= ENV['SMTP_DOMAIN'] %>
+    user_name: <%= ENV['SMTP_USERNAME'] %>
+    password: <%= ENV['SMTP_PASSWORD'] %>
+    authentication: plain
+    enable_starttls_auto: true
+  asset_host: <%= ENV['ASSET_HOST'] %> 

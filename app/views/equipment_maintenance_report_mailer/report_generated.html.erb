@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Relatório de Manutenção Gerado</h1>
+    
+    <p>Olá <%= @user.name %>,</p>
+    
+    <p>O relatório de manutenção para o equipamento <strong><%= @equipment.name %></strong> foi gerado com sucesso.</p>
+    
+    <h2>Detalhes do Relatório:</h2>
+    <ul>
+      <li><strong>Equipamento:</strong> <%= @equipment.name %></li>
+      <li><strong>Tipo:</strong> <%= @report.report_type.titleize %></li>
+      <li><strong>Período:</strong> <%= l(@report.start_date, format: :short) %> - <%= l(@report.end_date, format: :short) %></li>
+      <li><strong>Status:</strong> <%= @report.status.titleize %></li>
+    </ul>
+    
+    <p>O relatório em PDF está anexado a este e-mail.</p>
+    
+    <p>Para acessar o relatório no sistema, clique no link abaixo:</p>
+    <p>
+      <%= link_to 'Visualizar Relatório', equipment_maintenance_report_url(@report) %>
+    </p>
+    
+    <p>Atenciosamente,<br>Sistema de Gestão de Manutenção</p>
+  </body>
+</html> 

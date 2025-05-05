@@ -38,6 +38,11 @@ class Person < ApplicationRecord
   scope :carriers, -> { where('roles @> ?', '{carrier}') }
   scope :employees, -> { where('roles @> ?', '{employee}') }
   
+  # Escopos para facilitar consultas por tipo de pessoa
+  scope :clientes, -> { where(role: :customer) }
+  scope :fornecedores, -> { where(role: :supplier) }
+  scope :funcionarios, -> { where(role: :employee) }
+  
   # Métodos
   def full_name
     company? ? "#{corporate_name} (#{trading_name})" : name

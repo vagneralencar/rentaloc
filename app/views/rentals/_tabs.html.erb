@@ -1,0 +1,21 @@
+<%# Navegação de abas do contrato de locação %>
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item">
+    <%= link_to 'Dados do Contrato', rental_path(@rental), class: "nav-link #{'active' if params[:controller] == 'rentals'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Produtos/Equipamentos', rental_rental_items_path(@rental), class: "nav-link #{'active' if params[:controller] == 'rental_items'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Movimentação', rental_rental_movements_path(@rental), class: "nav-link #{'active' if params[:controller] == 'rental_movements'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Cobrança/Faturamento', rental_rental_billings_path(@rental), class: "nav-link #{'active' if params[:controller] == 'rental_billings'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Manutenção', rental_rental_maintenances_path(@rental), class: "nav-link #{'active' if params[:controller] == 'rental_maintenances'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Acompanhamento', rental_rental_notes_path(@rental), class: "nav-link #{'active' if params[:controller] == 'rental_notes'}" %>
+  </li>
+</ul>

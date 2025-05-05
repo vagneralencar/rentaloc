@@ -1,4 +1,4 @@
-<%= form_with(model: category, local: true) do |form| %>
+<%= form_with(model: category, local: true) do |f| %>
   <% if category.errors.any? %>
     <div class="alert alert-danger">
       <h4><%= pluralize(category.errors.count, "erro") %> impediram esta categoria de ser salva:</h4>
@@ -10,23 +10,29 @@
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= form.label :name, 'Nome' %>
-    <%= form.text_field :name, class: 'form-control' %>
+  <div class="card mb-3">
+    <div class="card-header"><b>Dados da Categoria</b></div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.label :name, 'Nome', class: 'form-label-sm' %>
+          <%= f.text_field :name, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-3">
+          <%= f.label :status, 'Status', class: 'form-label-sm' %>
+          <%= f.select :status, Category.statuses.keys.map { |s| [s.humanize, s] }, {prompt: 'Selecione'}, class: 'form-control form-control-sm' %>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-12">
+          <%= f.label :description, 'Descrição', class: 'form-label-sm' %>
+          <%= f.text_area :description, class: 'form-control form-control-sm', rows: 3 %>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <%= f.submit 'Salvar', class: 'btn btn-primary btn-sm' %>
+      <%= link_to 'Voltar', categories_path, class: 'btn btn-secondary btn-sm' %>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= form.label :description, 'Descrição' %>
-    <%= form.text_area :description, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :status, 'Status' %>
-    <%= form.select :status, Category.statuses.keys.map { |s| [s.humanize, s] }, {}, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.submit 'Salvar', class: 'btn btn-primary' %>
-    <%= link_to 'Voltar', categories_path, class: 'btn btn-default' %>
-  </div>
-<% end %> 
+<% end %>

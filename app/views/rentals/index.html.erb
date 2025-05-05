@@ -1,2 +1,120 @@
 <h1>Locações</h1>
 <p>Esta é a tela de listagem de locações.</p>
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h3 class="card-title mb-0"><i class="fas fa-file-contract"></i> Lista de Contratos</h3>
+    <button class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+  </div>
+  <div class="card-body pb-0">
+    <div class="row mb-2">
+      <div class="col-md-2">
+        <%= text_field_tag :number, params[:number], class: 'form-control form-control-sm', placeholder: 'Número' %>
+      </div>
+      <div class="col-md-2">
+        <%= text_field_tag :customer_document, params[:customer_document], class: 'form-control form-control-sm', placeholder: 'CNPJ/CPF Cliente' %>
+      </div>
+      <div class="col-md-2">
+        <%= text_field_tag :customer_name, params[:customer_name], class: 'form-control form-control-sm', placeholder: 'Nome/Razão Social Cliente' %>
+      </div>
+      <div class="col-md-2">
+        <%= text_field_tag :product, params[:product], class: 'form-control form-control-sm', placeholder: 'Produto' %>
+      </div>
+      <div class="col-md-2">
+        <%= select_tag :status, options_for_select([['Todos exceto cancelados', 'all'], ['Ativo', 'active'], ['Em criação', 'draft'], ['Devolvido', 'returned'], ['Encerrado', 'finished'], ['Cancelado', 'cancelled'], ['Suspenso', 'suspended']], params[:status]), class: 'form-control form-control-sm' %>
+      </div>
+      <div class="col-md-2">
+        <%= select_tag :per_page, options_for_select([20, 50, 100], params[:per_page]), class: 'form-control form-control-sm', prompt: 'Quantidade' %>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-2">
+        <%= button_tag 'Pesquisar', type: 'submit', class: 'btn btn-primary btn-sm w-100' %>
+      </div>
+      <div class="col-md-2">
+        <%= link_to 'Novo', new_rental_path, class: 'btn btn-success btn-sm w-100' %>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-sm table-bordered table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th>Nº</th>
+            <th>CPF/CNPJ</th>
+            <th>Nome/Razão Social</th>
+            <th>Início</th>
+            <th>Previsão</th>
+            <th>Fim</th>
+            <th>Período</th>
+            <th>Obs</th>
+            <th>Valor</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @rentals.each_with_index do |rental, idx| %>
+            <tr>
+              <td><%= rental.number %></td>
+              <td><%= rental.person&.document if rental.person&.role == 'customer' %></td>
+              <td><%= rental.person&.name if rental.person&.role == 'customer' %></td>
+              <td><%= l(rental.start_date) if rental.start_date %></td>
+              <td><%= l(rental.expected_end_date) if rental.expected_end_date %></td>
+              <td><%= l(rental.end_date) if rental.end_date %></td>
+              <td><%= rental.period_type&.capitalize || 'Mensal' %></td>
+              <td><%= rental.observation || rental.work&.name %></td>
+              <td><%= number_to_currency(rental.total_amount || 0, unit: '', separator: ',', delimiter: '.') %></td>
+              <td>
+                <%# Status icons %>
+                <% case rental.status %>
+                <% when 'draft' %>
+                  <span class="text-warning" title="Em criação"><i class="fas fa-circle"></i></span>
+                <% when 'active' %>
+                  <span class="text-success" title="Ativo"><i class="fas fa-circle"></i></span>
+                <% when 'returned' %>
+                  <span class="text-info" title="Devolvido"><i class="fas fa-circle"></i></span>
+                <% when 'finished' %>
+                  <span class="text-secondary" title="Encerrado"><i class="fas fa-circle"></i></span>
+                <% when 'cancelled' %>
+                  <span class="text-dark" title="Cancelado"><i class="fas fa-times"></i></span>
+                <% when 'suspended' %>
+                  <span class="text-warning" title="Suspenso"><i class="fas fa-pause"></i></span>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to rental_path(rental), class: 'btn btn-xs btn-outline-primary', title: 'Visualizar' do %>
+                  <i class="fas fa-eye"></i>
+                <% end %>
+                <%= link_to edit_rental_path(rental), class: 'btn btn-xs btn-outline-secondary', title: 'Editar' do %>
+                  <i class="fas fa-edit"></i>
+                <% end %>
+                <%= link_to rental_path(rental), method: :delete, data: { confirm: 'Tem certeza?' }, class: 'btn btn-xs btn-outline-danger', title: 'Excluir' do %>
+                  <i class="fas fa-trash"></i>
+                <% end %>
+                <%= link_to suspend_rental_path(rental), method: :patch, class: 'btn btn-xs btn-outline-warning', title: 'Suspender' do %>
+                  <i class="fas fa-pause"></i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      <div>
+        <b>Quantidade de registros:</b> <%= @rentals.size %>
+      </div>
+      <div>
+        <b>Total:</b> <%= number_to_currency(@rentals.sum(&:total_amount), unit: '', separator: ',', delimiter: '.') %>
+      </div>
+    </div>
+    <div class="mt-2">
+      <span class="badge badge-warning">Em criação</span>
+      <span class="badge badge-success">Ativo</span>
+      <span class="badge badge-info">Devolvido</span>
+      <span class="badge badge-secondary">Encerrado</span>
+      <span class="badge badge-dark">Cancelado</span>
+      <span class="badge badge-warning">Suspenso</span>
+    </div>
+  </div>
+</div>

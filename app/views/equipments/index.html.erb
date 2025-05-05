@@ -1,0 +1,29 @@
+<h1>Equipamentos</h1>
+<%= link_to 'Novo Equipamento', new_equipment_path, class: 'btn btn-success btn-sm mb-3' %>
+<table class="table table-sm table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Nome/Descrição</th>
+      <th>Grupo</th>
+      <th>Status</th>
+      <th>Valor Venda</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @equipments.each do |equipment| %>
+      <tr>
+        <td><%= equipment.code %></td>
+        <td><%= equipment.name %></td>
+        <td><%= equipment.group %></td>
+        <td><%= equipment.status %></td>
+        <td><%= number_to_currency(equipment.sale_value) %></td>
+        <td>
+          <%= link_to 'Editar', edit_equipment_path(equipment), class: 'btn btn-xs btn-outline-primary' %>
+          <%= link_to 'Excluir', equipment_path(equipment), method: :delete, data: { confirm: 'Tem certeza?' }, class: 'btn btn-xs btn-outline-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

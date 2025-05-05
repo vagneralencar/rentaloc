@@ -1,7 +1,9 @@
 class RentalBillingsController < ApplicationController
   before_action :set_rental_billing, only: [:show, :edit, :update, :destroy]
+  before_action :set_rental
 
   def index
+    # Listagem das cobranças/faturamentos
     @rental_billings = RentalBilling.all
   end
 
@@ -47,4 +49,8 @@ class RentalBillingsController < ApplicationController
   def rental_billing_params
     params.require(:rental_billing).permit(:rental_id, :due_date, :status, :total_amount)
   end
-end 
+
+  def set_rental
+    @rental = Rental.find(params[:rental_id])
+  end
+end

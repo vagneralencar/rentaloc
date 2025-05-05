@@ -1,0 +1,55 @@
+<% if @person&.persisted? %>
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item">
+    <%= link_to 'Dados Gerais', edit_person_path(@person), class: "nav-link #{'active' if params[:aba].blank? || params[:aba] == 'dados'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Fiscais', edit_person_path(@person, aba: 'fiscais'), class: "nav-link #{'active' if params[:aba] == 'fiscais'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Endereços', edit_person_path(@person, aba: 'enderecos'), class: "nav-link #{'active' if params[:aba] == 'enderecos'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Contatos', edit_person_path(@person, aba: 'contatos'), class: "nav-link #{'active' if params[:aba] == 'contatos'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Crédito', edit_person_path(@person, aba: 'credito'), class: "nav-link #{'active' if params[:aba] == 'credito'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Referências', edit_person_path(@person, aba: 'referencias'), class: "nav-link #{'active' if params[:aba] == 'referencias'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Observações', edit_person_path(@person, aba: 'observacoes'), class: "nav-link #{'active' if params[:aba] == 'observacoes'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Obras', edit_person_path(@person, aba: 'obras'), class: "nav-link #{'active' if params[:aba] == 'obras'}" %>
+  </li>
+</ul>
+<% else %>
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Dados Gerais</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Fiscais</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Endereços</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Contatos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Crédito</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Referências</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Observações</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Obras</a>
+  </li>
+</ul>
+<% end %>

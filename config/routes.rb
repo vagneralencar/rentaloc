@@ -19,13 +19,15 @@ Rails.application.routes.draw do
     resources :addresses, except: [:index, :show]
   end
 
-  resources :equipment do
+  resources :equipments do
     resources :maintenance_reports
     resources :equipment_images, only: [:create, :destroy]
     collection do
       get :available
     end
   end
+
+  get '/equipment', to: redirect('/equipments')
 
   # Locações
   resources :rentals do
@@ -37,6 +39,11 @@ Rails.application.routes.draw do
     end
     resources :rental_items
     resources :documents, only: [:create, :destroy]
+    resources :rental_items, path: 'itens'
+    resources :rental_movements, path: 'movimentacao'
+    resources :rental_billings, path: 'cobranca'
+    resources :rental_maintenances, path: 'manutencao'
+    resources :rental_notes, path: 'acompanhamento'
   end
 
   # Financeiro
@@ -96,4 +103,17 @@ Rails.application.routes.draw do
   resources :rental_billings
   resources :categories
   resources :accessories
+  resources :people
+  resources :carriers
+  resources :employees
+  resources :people
+  resources :works
+  resources :services
+  resources :categories
+  resources :financial_natures
+  resources :cost_centers
+  resources :rentals
+  resources :invoices
+  resources :payments
+  resources :service_orders
 end

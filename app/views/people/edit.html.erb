@@ -1,0 +1,21 @@
+<h1>Editar Pessoa</h1>
+<%= render 'tabs', person: @person %>
+
+<% case params[:aba] %>
+<% when 'fiscais' %>
+  <%= render 'fiscais', person: @person %>
+<% when 'enderecos' %>
+  <%= render 'enderecos', person: @person %>
+<% when 'contatos' %>
+  <%= render 'contatos', person: @person %>
+<% when 'credito' %>
+  <%= render 'credito', person: @person %>
+<% when 'referencias' %>
+  <%= render 'referencias', person: @person %>
+<% when 'observacoes' %>
+  <%= render 'observacoes', person: @person %>
+<% when 'obras' %>
+  <%= render 'obras', person: @person %>
+<% else %>
+  <%= render 'form', person: @person %>
+<% end %>

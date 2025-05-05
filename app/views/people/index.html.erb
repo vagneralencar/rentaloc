@@ -1,0 +1,29 @@
+<h1>Pessoas</h1>
+<%= link_to 'Nova Pessoa', new_person_path, class: 'btn btn-success btn-sm mb-3' %>
+<table class="table table-sm table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Tipo</th>
+      <th>CPF/CNPJ</th>
+      <th>Status</th>
+      <th>Email</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @people.each do |person| %>
+      <tr>
+        <td><%= person.name %></td>
+        <td><%= person.person_type %></td>
+        <td><%= person.document %></td>
+        <td><%= person.status %></td>
+        <td><%= person.email %></td>
+        <td>
+          <%= link_to 'Editar', edit_person_path(person), class: 'btn btn-xs btn-outline-primary' %>
+          <%= link_to 'Excluir', person_path(person), method: :delete, data: { confirm: 'Tem certeza?' }, class: 'btn btn-xs btn-outline-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

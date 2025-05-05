@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_03_044358) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_04_043000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -179,27 +179,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_03_044358) do
     t.index ["historyable_type", "historyable_id"], name: "index_customer_histories_on_historyable"
     t.index ["tenant_id", "customer_id", "history_type"], name: "idx_on_tenant_id_customer_id_history_type_3b99fb7324"
     t.index ["tenant_id"], name: "index_customer_histories_on_tenant_id"
-  end
-
-  create_table "customers", force: :cascade do |t|
-    t.integer "tenant_id", null: false
-    t.string "name", null: false
-    t.integer "document_type", default: 0
-    t.string "document", null: false
-    t.string "email", null: false
-    t.string "phone"
-    t.string "trade_name"
-    t.string "state_registration"
-    t.string "municipal_registration"
-    t.integer "status", default: 0
-    t.decimal "credit_limit", precision: 10, scale: 2, default: "0.0"
-    t.text "notes"
-    t.json "additional_data", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["tenant_id", "document"], name: "index_customers_on_tenant_id_and_document", unique: true
-    t.index ["tenant_id", "email"], name: "index_customers_on_tenant_id_and_email", unique: true
-    t.index ["tenant_id"], name: "index_customers_on_tenant_id"
   end
 
   create_table "equipment_accessories", force: :cascade do |t|
@@ -1385,7 +1364,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_03_044358) do
   add_foreign_key "customer_histories", "customers"
   add_foreign_key "customer_histories", "tenants"
   add_foreign_key "customer_histories", "users", column: "created_by_id"
-  add_foreign_key "customers", "tenants"
   add_foreign_key "equipment_accessories", "equipment"
   add_foreign_key "equipment_accessories", "equipments", column: "accessory_id"
   add_foreign_key "equipment_accessories", "tenants"

@@ -1,0 +1,81 @@
+<%= form_with(model: person, local: true) do |f| %>
+  <div class="card mb-3">
+    <div class="card-header"><b>Dados Gerais</b></div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <%= f.label :name, 'Nome/Razão Social', class: 'form-label-sm' %>
+          <%= f.text_field :name, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :person_type, 'Tipo', class: 'form-label-sm' %>
+          <%= f.select :person_type, Person.person_types.keys.map { |k| [k.humanize, k] }, {prompt: 'Selecione'}, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :document, 'CPF/CNPJ', class: 'form-label-sm' %>
+          <%= f.text_field :document, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :trade_name, 'Nome Fantasia/Apelido', class: 'form-label-sm' %>
+          <%= f.text_field :trade_name, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :status, 'Status', class: 'form-label-sm' %>
+          <%= f.select :status, Person.statuses.keys.map { |k| [k.humanize, k] }, {prompt: 'Selecione'}, class: 'form-control form-control-sm' %>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-3">
+          <%= f.label :email, 'E-mail Principal', class: 'form-label-sm' %>
+          <%= f.email_field :email, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-3">
+          <%= f.label :fiscal_email, 'E-mail NF-e/NFS-e', class: 'form-label-sm' %>
+          <%= f.email_field :fiscal_email, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :activity, 'Atividade', class: 'form-label-sm' %>
+          <%= f.text_field :activity, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :region, 'Região', class: 'form-label-sm' %>
+          <%= f.text_field :region, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :indication, 'Indicação', class: 'form-label-sm' %>
+          <%= f.text_field :indication, class: 'form-control form-control-sm' %>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-2">
+          <%= f.label :phone_commercial, 'Fone Comercial', class: 'form-label-sm' %>
+          <%= f.text_field :phone_commercial, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :phone_residential, 'Fone Residencial', class: 'form-label-sm' %>
+          <%= f.text_field :phone_residential, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :phone_mobile, 'Celular', class: 'form-label-sm' %>
+          <%= f.text_field :phone_mobile, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :phone_financial, 'Fone Financeiro/Fax', class: 'form-label-sm' %>
+          <%= f.text_field :phone_financial, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :user_id, 'Usuário (Funcionário)', class: 'form-label-sm' %>
+          <%= f.collection_select :user_id, User.all, :id, :name, {prompt: 'Selecione'}, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :role, 'Tipo de Pessoa', class: 'form-label-sm' %>
+          <%= f.select :role, Person.roles.keys.map { |k| [k.humanize, k] }, {prompt: 'Selecione'}, class: 'form-control form-control-sm' %>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <%= f.submit 'Salvar', class: 'btn btn-primary btn-sm' %>
+      <%= link_to 'Voltar', people_path, class: 'btn btn-secondary btn-sm' %>
+    </div>
+  </div>
+<% end %>

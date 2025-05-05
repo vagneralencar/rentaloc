@@ -1,0 +1,20 @@
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item">
+    <%= link_to 'Principal', edit_equipment_path(@equipment), class: "nav-link #{'active' if params[:aba].blank? || params[:aba] == 'principal'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Acessórios', edit_equipment_path(@equipment, aba: 'acessorios'), class: "nav-link #{'active' if params[:aba] == 'acessorios'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Estoque', edit_equipment_path(@equipment, aba: 'estoque'), class: "nav-link #{'active' if params[:aba] == 'estoque'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Tabela de Locação', edit_equipment_path(@equipment, aba: 'tabela_locacao'), class: "nav-link #{'active' if params[:aba] == 'tabela_locacao'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Informações Fiscais', edit_equipment_path(@equipment, aba: 'informacoes_fiscais'), class: "nav-link #{'active' if params[:aba] == 'informacoes_fiscais'}" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Fotos', edit_equipment_path(@equipment, aba: 'fotos'), class: "nav-link #{'active' if params[:aba] == 'fotos'}" %>
+  </li>
+</ul>

@@ -71,15 +71,45 @@
                 <% end %>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <%= link_to customers_path, class: "nav-link #{'active' if controller_name == 'customers'}" do %>
+                    <%= link_to people_path, class: "nav-link #{'active' if controller_name == 'people'}" do %>
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Clientes</p>
+                      <p>Pessoas</p>
                     <% end %>
                   </li>
                   <li class="nav-item">
-                    <%= link_to equipment_index_path, class: "nav-link #{'active' if controller_name == 'equipment'}" do %>
+                    <%= link_to equipments_path, class: "nav-link #{'active' if controller_name == 'equipments'}" do %>
                       <i class="far fa-circle nav-icon"></i>
                       <p>Equipamentos</p>
+                    <% end %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to works_path, class: "nav-link #{'active' if controller_name == 'works'}" do %>
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Obras</p>
+                    <% end %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to services_path, class: "nav-link #{'active' if controller_name == 'services'}" do %>
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Serviços</p>
+                    <% end %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to categories_path, class: "nav-link #{'active' if controller_name == 'categories'}" do %>
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Categorias</p>
+                    <% end %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to financial_natures_path, class: "nav-link #{'active' if controller_name == 'financial_natures'}" do %>
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Natureza Financeira</p>
+                    <% end %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to cost_centers_path, class: "nav-link #{'active' if controller_name == 'cost_centers'}" do %>
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Centro de Custo</p>
                     <% end %>
                   </li>
                 </ul>
@@ -172,7 +202,11 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0"><%= content_for?(:title) ? yield(:title) : "Dashboard" %></h1>
+                <% if controller_name == 'dashboard' %>
+                  <h1 class="m-0"><%= content_for?(:title) ? yield(:title) : "Dashboard" %></h1>
+                <% else %>
+                  <h1 class="m-0"><%= content_for?(:title) ? yield(:title) : '' %></h1>
+                <% end %>
               </div>
             </div>
           </div>

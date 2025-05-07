@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_04_043000) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_06_015708) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -62,6 +62,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_04_043000) do
     t.index ["zip_code"], name: "index_addresses_on_zip_code"
   end
 
+  create_table "bank_references", force: :cascade do |t|
+    t.integer "person_id", null: false
+    t.string "bank_name"
+    t.string "agency"
+    t.string "account"
+    t.string "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_bank_references_on_person_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.integer "tenant_id", null: false
     t.string "name", null: false
@@ -74,6 +85,21 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_04_043000) do
     t.integer "parent_id"
     t.index ["tenant_id", "code"], name: "index_categories_on_tenant_id_and_code", unique: true
     t.index ["tenant_id"], name: "index_categories_on_tenant_id"
+  end
+
+  create_table "commercial_references", force: :cascade do |t|
+    t.integer "person_id", null: false
+    t.string "company_name"
+    t.string "phone"
+    t.string "attendant"
+    t.date "first_purchase"
+    t.decimal "largest_purchase"
+    t.date "last_purchase"
+    t.string "payment_method"
+    t.string "observation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_commercial_references_on_person_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -674,6 +700,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_04_043000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "fiscal_email"
+    t.string "fiscal_type"
+    t.string "state_registration"
+    t.string "municipal_registration"
+    t.string "cnae"
+    t.string "tax_regime"
+    t.boolean "withhold_iss"
+    t.boolean "withhold_inss"
+    t.boolean "withhold_ir"
+    t.boolean "withhold_pis_cofins_csll"
     t.index ["person_type"], name: "index_people_on_person_type"
     t.index ["region"], name: "index_people_on_region"
     t.index ["role"], name: "index_people_on_role"
@@ -698,6 +733,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_04_043000) do
     t.index ["is_system"], name: "index_permissions_on_is_system"
     t.index ["tenant_id", "name"], name: "index_permissions_on_tenant_id_and_name", unique: true
     t.index ["tenant_id"], name: "index_permissions_on_tenant_id"
+  end
+
+  create_table "person_documents", force: :cascade do |t|
+    t.integer "person_id", null: false
+    t.integer "tenant_id", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_person_documents_on_person_id"
+    t.index ["tenant_id"], name: "index_person_documents_on_tenant_id"
   end
 
   create_table "price_table_items", force: :cascade do |t|
@@ -780,6 +825,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_04_043000) do
     t.index ["tenant_id", "number"], name: "index_quotations_on_tenant_id_and_number", unique: true
     t.index ["tenant_id"], name: "index_quotations_on_tenant_id"
     t.index ["valid_until"], name: "index_quotations_on_valid_until"
+  end
+
+  create_table "related_people", force: :cascade do |t|
+    t.integer "person_id", null: false
+    t.string "cpf_cnpj"
+    t.string "name"
+    t.string "relation_type"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_related_people_on_person_id"
   end
 
   create_table "rental_billing_items", force: :cascade do |t|
@@ -1352,7 +1408,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_04_043000) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "tenants"
+  add_foreign_key "bank_references", "people"
   add_foreign_key "categories", "tenants"
+  add_foreign_key "commercial_references", "people"
   add_foreign_key "contacts", "tenants"
   add_foreign_key "cost_centers", "cost_centers", column: "parent_id"
   add_foreign_key "cost_centers", "tenants"
@@ -1435,6 +1493,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_04_043000) do
   add_foreign_key "people", "tenants"
   add_foreign_key "people", "users"
   add_foreign_key "permissions", "tenants"
+  add_foreign_key "person_documents", "people"
+  add_foreign_key "person_documents", "tenants"
   add_foreign_key "price_table_items", "equipment"
   add_foreign_key "price_table_items", "price_tables"
   add_foreign_key "price_table_items", "tenants"
@@ -1445,6 +1505,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_04_043000) do
   add_foreign_key "quotations", "customers"
   add_foreign_key "quotations", "tenants"
   add_foreign_key "quotations", "users", column: "created_by_id"
+  add_foreign_key "related_people", "people"
   add_foreign_key "rental_billing_items", "equipment"
   add_foreign_key "rental_billing_items", "rental_billings"
   add_foreign_key "rental_billing_items", "rental_items"

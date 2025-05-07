@@ -103,13 +103,21 @@ Rails.application.routes.draw do
   resources :rental_billings
   resources :categories
   resources :accessories
-  resources :people
+  resources :people do
+    member do
+      get :new_commercial_reference
+      get :new_bank_reference
+      get :new_related_person
+    end
+    resources :person_documents, only: [:create, :destroy]
+    resources :bank_references, only: [:create]
+    resources :related_people, only: [:create]
+    resources :commercial_references, only: [:new, :create, :edit, :update, :destroy]
+  end
   resources :carriers
   resources :employees
-  resources :people
   resources :works
   resources :services
-  resources :categories
   resources :financial_natures
   resources :cost_centers
   resources :rentals

@@ -1,0 +1,37 @@
+<div class="card mb-3">
+  <div class="card-header"><b>Anexar Documentos do Cliente</b></div>
+  <div class="card-body">
+    <%= form_with(model: [person, PersonDocument.new], local: true, html: {multipart: true}) do |doc_form| %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= doc_form.label :description, 'Descrição/Observação', class: 'form-label-sm' %>
+          <%= doc_form.text_field :description, class: 'form-control form-control-sm', required: true %>
+        </div>
+        <div class="col-md-4">
+          <%= doc_form.label :file, 'Arquivo', class: 'form-label-sm' %>
+          <%= doc_form.file_field :file, class: 'form-control form-control-sm', required: true %>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+          <%= doc_form.submit 'Anexar', class: 'btn btn-primary btn-sm' %>
+        </div>
+      </div>
+    <% end %>
+    <hr>
+    <div class="row">
+      <div class="col-md-12">
+        <b>Documentos Anexados</b>
+        <ul class="list-group mt-2">
+          <% person.person_documents.each do |doc| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <strong><%= doc.description %></strong> - 
+                <%= link_to doc.file.filename.to_s, url_for(doc.file), target: '_blank', rel: 'noopener' %>
+              </div>
+              <%= link_to 'Remover', person_person_document_path(person, doc), method: :delete, data: { confirm: 'Tem certeza que deseja remover este documento?' }, class: 'btn btn-sm btn-danger' %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

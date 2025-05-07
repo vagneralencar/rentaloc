@@ -1,0 +1,20 @@
+<%= turbo_frame_tag dom_id(commercial_reference) do %>
+  <tr>
+    <td><%= commercial_reference.company_name %></td>
+    <td><%= commercial_reference.phone %></td>
+    <td><%= commercial_reference.attendant %></td>
+    <td><%= commercial_reference.first_purchase %></td>
+    <td><%= commercial_reference.largest_purchase %></td>
+    <td><%= commercial_reference.last_purchase %></td>
+    <td><%= commercial_reference.payment_method %></td>
+    <td><%= commercial_reference.observation %></td>
+    <td>
+      <%= link_to edit_person_commercial_reference_path(person, commercial_reference), class: "btn btn-sm btn-primary", data: { turbo_frame: dom_id(commercial_reference) } do %>
+        <i class="fas fa-edit"></i>
+      <% end %>
+      <%= link_to person_commercial_reference_path(person, commercial_reference), class: "btn btn-sm btn-danger", data: { turbo_method: :delete, turbo_confirm: "Tem certeza?" } do %>
+        <i class="fas fa-trash"></i>
+      <% end %>
+    </td>
+  </tr>
+<% end %> 

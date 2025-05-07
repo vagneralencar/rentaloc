@@ -1,3 +1,4 @@
+// Arquivo desativado para evitar conflito com importmap e garantir funcionamento correto dos campos dinâmicos
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
@@ -84,4 +85,57 @@ function initializeMasks() {
 document.addEventListener('turbo:load', function() {
   initializeMasks();
   initializeSelect2('.select2');
-}); 
+});
+
+// Adição/remoção dinâmica de referências (comercial, bancária, pessoa relacionada)
+document.addEventListener('turbo:load', function() {
+  // Inicializa os contadores se não existirem
+  if (!window.nestedCounters) {
+    window.nestedCounters = {
+      commercial_references: 0,
+      bank_references: 0,
+      related_people: 0
+    };
+  }
+
+  // Remove event listeners antigos para evitar duplicidade
+  document.body.removeEventListener('click', handleDynamicFields);
+  
+  // Adiciona o novo event listener
+  document.body.addEventListener('click', handleDynamicFields);
+});
+
+function handleDynamicFields(e) {
+  // Adicionar campos
+  if (e.target.matches('[data-action="add-fields"]')) {
+    e.preventDefault();
+    const association = e.target.getAttribute('data-association');
+    const template = document.getElementById(`${association}_fields_template`);
+    
+    if (template) {
+      const table = e.target.closest('.card-body').querySelector('table tbody');
+      if (table) {
+        // Clona o template e insere no DOM
+        const clone = template.content.cloneNode(true);
+        table.appendChild(clone);
+        
+        // Inicializa máscaras e outros componentes se necessário
+        initializeMasks();
+      }
+    }
+  }
+  
+  // Remover campos
+  if (e.target.matches('[data-action="remove-fields"]')) {
+    e.preventDefault();
+    const row = e.target.closest('tr');
+    if (row) {
+      const form = row.closest('form');
+      if (form) {
+        form.remove();
+      } else {
+        row.remove();
+      }
+    }
+  }
+}

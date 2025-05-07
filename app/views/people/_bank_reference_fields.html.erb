@@ -1,0 +1,24 @@
+<% if bank_reference&.errors&.any? %>
+  <tr>
+    <td colspan="5">
+      <div class="alert alert-danger">
+        <ul>
+          <% bank_reference.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    </td>
+  </tr>
+<% end %>
+<tr>
+  <%= turbo_frame_tag "bank_reference_form" do %>
+    <%= form_with(model: [person, BankReference.new], url: person_bank_references_path(person), data: { turbo_frame: 'bank_references' }, local: false) do |br| %>
+      <td><%= br.text_field :bank_name, class: 'form-control form-control-sm' %></td>
+      <td><%= br.text_field :agency, class: 'form-control form-control-sm' %></td>
+      <td><%= br.text_field :account, class: 'form-control form-control-sm' %></td>
+      <td><%= br.text_field :phone, class: 'form-control form-control-sm' %></td>
+      <td><%= br.submit 'Salvar', class: 'btn btn-success btn-sm' %></td>
+    <% end %>
+  <% end %>
+</tr>

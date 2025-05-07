@@ -1,0 +1,28 @@
+<% if commercial_reference&.errors&.any? %>
+  <tr>
+    <td colspan="9">
+      <div class="alert alert-danger">
+        <ul>
+          <% commercial_reference.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    </td>
+  </tr>
+<% end %>
+<tr>
+  <%= turbo_frame_tag "commercial_reference_form" do %>
+    <%= form_with(model: [person, commercial_reference], url: person_commercial_references_path(person), data: { turbo_frame: 'commercial_references' }, local: false) do |cr| %>
+      <td><%= cr.text_field :company_name, class: 'form-control form-control-sm' %></td>
+      <td><%= cr.text_field :phone, class: 'form-control form-control-sm' %></td>
+      <td><%= cr.text_field :attendant, class: 'form-control form-control-sm' %></td>
+      <td><%= cr.date_field :first_purchase, class: 'form-control form-control-sm' %></td>
+      <td><%= cr.text_field :largest_purchase, class: 'form-control form-control-sm' %></td>
+      <td><%= cr.date_field :last_purchase, class: 'form-control form-control-sm' %></td>
+      <td><%= cr.text_field :payment_method, class: 'form-control form-control-sm' %></td>
+      <td><%= cr.text_field :observation, class: 'form-control form-control-sm' %></td>
+      <td><%= cr.submit 'Salvar', class: 'btn btn-success btn-sm' %></td>
+    <% end %>
+  <% end %>
+</tr>

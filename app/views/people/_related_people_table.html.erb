@@ -1,0 +1,37 @@
+<turbo-frame id="related_people">
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span><i class="bi bi-people"></i> <b>Pessoas Relacionadas</b></span>
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-sm mb-0">
+        <thead>
+          <tr>
+            <th>CPF/CNPJ</th>
+            <th>Nome</th>
+            <th>Tipo Relação</th>
+            <th>Ativo</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% person.related_people.each do |rp| %>
+            <tr>
+              <td><%= rp.cpf_cnpj %></td>
+              <td><%= rp.name %></td>
+              <td><%= rp.relation_type %></td>
+              <td><%= rp.active ? 'Sim' : 'Não' %></td>
+              <td>
+                <%= link_to '✏️', edit_related_person_path(rp, person_id: person.id), data: { turbo_frame: 'related_people' }, class: 'btn btn-sm btn-outline-secondary' %>
+                <%= link_to '🗑️', related_person_path(rp, person_id: person.id), data: { turbo_method: :delete, turbo_confirm: 'Tem certeza?' }, class: 'btn btn-sm btn-outline-danger' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="mt-2">
+        <%= link_to 'Incluir Pessoa Relacionada', new_related_person_person_path(person), data: { turbo_frame: 'related_people' }, class: 'btn btn-info btn-sm' %>
+      </div>
+    </div>
+  </div>
+</turbo-frame>

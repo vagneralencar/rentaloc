@@ -1,0 +1,38 @@
+<turbo-frame id="bank_references">
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span><i class="bi bi-bank"></i> <b>Referências Bancárias</b></span>
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-sm mb-0">
+        <thead>
+          <tr>
+            <th>Banco</th>
+            <th>Agência</th>
+            <th>Conta</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% person.bank_references.each do |br| %>
+            <tr>
+              <td><%= br.bank_name %></td>
+              <td><%= br.agency %></td>
+              <td><%= br.account %></td>
+              <td><%= br.phone %></td>
+              <td>
+                <%= link_to '✏️', edit_bank_reference_path(br, person_id: person.id), data: { turbo_frame: 'bank_references' }, class: 'btn btn-sm btn-outline-secondary' %>
+                <%= link_to '🗑️', bank_reference_path(br, person_id: person.id), data: { turbo_method: :delete, turbo_confirm: 'Tem certeza?' }, class: 'btn btn-sm btn-outline-danger' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <!-- Removido botão duplicado de inclusão inline, centralize em _referencias.html.erb -->
+      <%= turbo_frame_tag 'bank_reference_form' do %>
+        <!-- O formulário será carregado aqui via Turbo -->
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>

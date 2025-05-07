@@ -1,1 +1,242 @@
-<div class="card mb-3"><div class="card-header"><b>Endereços</b></div><div class="card-body"><p>Cadastro de endereços (principal, cobrança, obras) aqui.</p></div></div>
+<%= form_with(model: @person, local: true) do |f| %>
+  <%= hidden_field_tag :aba, 'enderecos' %>
+  <div class="card mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <b>Endereços</b>
+      <button type="button" class="btn btn-sm btn-success" id="add-address-btn">
+        <i class="fas fa-plus"></i> Adicionar Endereço
+      </button>
+    </div>
+    <div class="card-body">
+      <div id="addresses">
+        <%= f.fields_for :addresses do |address| %>
+          <div class="address-fields card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Endereço <%= address.index + 1 %></span>
+              <button type="button" class="btn btn-sm btn-danger remove-address-btn">
+                <i class="fas fa-trash"></i> Remover
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <%= address.label :address_type, 'Tipo de Endereço', class: 'form-label-sm' %>
+                  <%= address.select :address_type, Address.address_types.map { |k, v| [k.humanize, k] }, { include_blank: 'Selecione' }, class: 'form-control form-control-sm' %>
+                </div>
+                <div class="col-md-4">
+                  <%= address.label :zip_code, 'CEP', class: 'form-label-sm' %>
+                  <%= address.text_field :zip_code, class: 'form-control form-control-sm cep-mask' %>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-check mt-4">
+                    <%= address.check_box :default, class: 'form-check-input' %>
+                    <%= address.label :default, 'Endereço padrão', class: 'form-check-label' %>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row mt-2">
+                <div class="col-md-6">
+                  <%= address.label :street, 'Logradouro', class: 'form-label-sm' %>
+                  <%= address.text_field :street, class: 'form-control form-control-sm' %>
+                </div>
+                <div class="col-md-2">
+                  <%= address.label :number, 'Número', class: 'form-label-sm' %>
+                  <%= address.text_field :number, class: 'form-control form-control-sm' %>
+                </div>
+                <div class="col-md-4">
+                  <%= address.label :complement, 'Complemento', class: 'form-label-sm' %>
+                  <%= address.text_field :complement, class: 'form-control form-control-sm' %>
+                </div>
+              </div>
+              
+              <div class="row mt-2">
+                <div class="col-md-4">
+                  <%= address.label :neighborhood, 'Bairro', class: 'form-label-sm' %>
+                  <%= address.text_field :neighborhood, class: 'form-control form-control-sm' %>
+                </div>
+                <div class="col-md-4">
+                  <%= address.label :city, 'Cidade', class: 'form-label-sm' %>
+                  <%= address.text_field :city, class: 'form-control form-control-sm' %>
+                </div>
+                <div class="col-md-2">
+                  <%= address.label :state, 'Estado', class: 'form-label-sm' %>
+                  <%= address.select :state, options_for_select([
+                    ['AC', 'AC'], ['AL', 'AL'], ['AP', 'AP'], ['AM', 'AM'], ['BA', 'BA'], 
+                    ['CE', 'CE'], ['DF', 'DF'], ['ES', 'ES'], ['GO', 'GO'], ['MA', 'MA'], 
+                    ['MT', 'MT'], ['MS', 'MS'], ['MG', 'MG'], ['PA', 'PA'], ['PB', 'PB'], 
+                    ['PR', 'PR'], ['PE', 'PE'], ['PI', 'PI'], ['RJ', 'RJ'], ['RN', 'RN'], 
+                    ['RS', 'RS'], ['RO', 'RO'], ['RR', 'RR'], ['SC', 'SC'], ['SP', 'SP'], 
+                    ['SE', 'SE'], ['TO', 'TO']
+                  ]), { include_blank: 'UF' }, class: 'form-control form-control-sm' %>
+                </div>
+                <div class="col-md-2">
+                  <%= address.label :country, 'País', class: 'form-label-sm' %>
+                  <%= address.text_field :country, value: address.object.country || 'Brasil', class: 'form-control form-control-sm' %>
+                </div>
+              </div>
+              
+              <%= address.hidden_field :_destroy %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      
+      <div id="address-template" style="display: none;">
+        <div class="address-fields card mb-3">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Novo Endereço</span>
+            <button type="button" class="btn btn-sm btn-danger remove-address-btn">
+              <i class="fas fa-trash"></i> Remover
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4">
+                <label for="NEW_RECORD_address_type" class="form-label-sm">Tipo de Endereço</label>
+                <select name="person[addresses_attributes][NEW_RECORD][address_type]" id="NEW_RECORD_address_type" class="form-control form-control-sm">
+                  <option value="">Selecione</option>
+                  <option value="main">Principal</option>
+                  <option value="billing">Cobrança</option>
+                  <option value="delivery">Entrega</option>
+                  <option value="construction">Obra</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="NEW_RECORD_zip_code" class="form-label-sm">CEP</label>
+                <input type="text" name="person[addresses_attributes][NEW_RECORD][zip_code]" id="NEW_RECORD_zip_code" class="form-control form-control-sm cep-mask">
+              </div>
+              <div class="col-md-4">
+                <div class="form-check mt-4">
+                  <input type="checkbox" name="person[addresses_attributes][NEW_RECORD][default]" id="NEW_RECORD_default" class="form-check-input">
+                  <label for="NEW_RECORD_default" class="form-check-label">Endereço padrão</label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row mt-2">
+              <div class="col-md-6">
+                <label for="NEW_RECORD_street" class="form-label-sm">Logradouro</label>
+                <input type="text" name="person[addresses_attributes][NEW_RECORD][street]" id="NEW_RECORD_street" class="form-control form-control-sm">
+              </div>
+              <div class="col-md-2">
+                <label for="NEW_RECORD_number" class="form-label-sm">Número</label>
+                <input type="text" name="person[addresses_attributes][NEW_RECORD][number]" id="NEW_RECORD_number" class="form-control form-control-sm">
+              </div>
+              <div class="col-md-4">
+                <label for="NEW_RECORD_complement" class="form-label-sm">Complemento</label>
+                <input type="text" name="person[addresses_attributes][NEW_RECORD][complement]" id="NEW_RECORD_complement" class="form-control form-control-sm">
+              </div>
+            </div>
+            
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <label for="NEW_RECORD_neighborhood" class="form-label-sm">Bairro</label>
+                <input type="text" name="person[addresses_attributes][NEW_RECORD][neighborhood]" id="NEW_RECORD_neighborhood" class="form-control form-control-sm">
+              </div>
+              <div class="col-md-4">
+                <label for="NEW_RECORD_city" class="form-label-sm">Cidade</label>
+                <input type="text" name="person[addresses_attributes][NEW_RECORD][city]" id="NEW_RECORD_city" class="form-control form-control-sm">
+              </div>
+              <div class="col-md-2">
+                <label for="NEW_RECORD_state" class="form-label-sm">Estado</label>
+                <select name="person[addresses_attributes][NEW_RECORD][state]" id="NEW_RECORD_state" class="form-control form-control-sm">
+                  <option value="">UF</option>
+                  <option value="AC">AC</option>
+                  <option value="AL">AL</option>
+                  <option value="AP">AP</option>
+                  <option value="AM">AM</option>
+                  <option value="BA">BA</option>
+                  <option value="CE">CE</option>
+                  <option value="DF">DF</option>
+                  <option value="ES">ES</option>
+                  <option value="GO">GO</option>
+                  <option value="MA">MA</option>
+                  <option value="MT">MT</option>
+                  <option value="MS">MS</option>
+                  <option value="MG">MG</option>
+                  <option value="PA">PA</option>
+                  <option value="PB">PB</option>
+                  <option value="PR">PR</option>
+                  <option value="PE">PE</option>
+                  <option value="PI">PI</option>
+                  <option value="RJ">RJ</option>
+                  <option value="RN">RN</option>
+                  <option value="RS">RS</option>
+                  <option value="RO">RO</option>
+                  <option value="RR">RR</option>
+                  <option value="SC">SC</option>
+                  <option value="SP">SP</option>
+                  <option value="SE">SE</option>
+                  <option value="TO">TO</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <label for="NEW_RECORD_country" class="form-label-sm">País</label>
+                <input type="text" name="person[addresses_attributes][NEW_RECORD][country]" id="NEW_RECORD_country" value="Brasil" class="form-control form-control-sm">
+              </div>
+            </div>
+            
+            <input type="hidden" name="person[addresses_attributes][NEW_RECORD][_destroy]" id="NEW_RECORD__destroy" value="false">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <%= f.submit 'Salvar', class: 'btn btn-primary btn-sm' %>
+      <%= link_to 'Voltar', people_path, class: 'btn btn-secondary btn-sm' %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Adicionar endereço
+    document.getElementById('add-address-btn').addEventListener('click', function() {
+      const template = document.getElementById('address-template').innerHTML;
+      const addressesContainer = document.getElementById('addresses');
+      const newIndex = new Date().getTime();
+      const newAddress = template.replace(/NEW_RECORD/g, newIndex);
+      
+      addressesContainer.insertAdjacentHTML('beforeend', newAddress);
+      
+      // Reativar as máscaras para os novos campos
+      const newCepFields = document.querySelectorAll('.cep-mask');
+      if (typeof IMask !== 'undefined') {
+        newCepFields.forEach(function(field) {
+          IMask(field, {mask: '00000-000'});
+        });
+      }
+      
+      // Adicionar evento aos novos botões de remover
+      addRemoveEventListeners();
+    });
+    
+    // Função para adicionar eventos nos botões de remover
+    function addRemoveEventListeners() {
+      document.querySelectorAll('.remove-address-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const addressField = this.closest('.address-fields');
+          const destroyField = addressField.querySelector('input[name$="[_destroy]"]');
+          
+          if (destroyField) {
+            destroyField.value = "1";
+            addressField.style.display = 'none';
+          } else {
+            addressField.remove();
+          }
+        });
+      });
+    }
+    
+    // Inicializar eventos de remover para endereços existentes
+    addRemoveEventListeners();
+    
+    // Inicializar máscaras
+    if (typeof IMask !== 'undefined') {
+      document.querySelectorAll('.cep-mask').forEach(function(field) {
+        IMask(field, {mask: '00000-000'});
+      });
+    }
+  });
+</script>

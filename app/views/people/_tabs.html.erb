@@ -1,55 +1,61 @@
 <% if @person&.persisted? %>
-<ul class="nav nav-tabs mb-3">
-  <li class="nav-item">
-    <%= link_to 'Dados Gerais', edit_person_path(@person), class: "nav-link #{'active' if params[:aba].blank? || params[:aba] == 'dados'}" %>
+<ul class="nav nav-tabs custom-tabs mb-3" role="tablist">
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_person_path(@person), class: "nav-link #{'active' if params[:aba].blank? || params[:aba] == 'dados'}", role: "tab" do %>
+      <i class="bi bi-person"></i> Dados Gerais
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Fiscais', edit_person_path(@person, aba: 'fiscais'), class: "nav-link #{'active' if params[:aba] == 'fiscais'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_person_path(@person, aba: 'fiscais'), class: "nav-link #{'active' if params[:aba] == 'fiscais'}", role: "tab" do %>
+      <i class="bi bi-bank"></i> Fiscais
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Endereços', edit_person_path(@person, aba: 'enderecos'), class: "nav-link #{'active' if params[:aba] == 'enderecos'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_person_path(@person, aba: 'enderecos'), class: "nav-link #{'active' if params[:aba] == 'enderecos'}", role: "tab" do %>
+      <i class="bi bi-geo-alt"></i> Endereços
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Contatos', edit_person_path(@person, aba: 'contatos'), class: "nav-link #{'active' if params[:aba] == 'contatos'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_person_path(@person, aba: 'contatos'), class: "nav-link #{'active' if params[:aba] == 'contatos'}", role: "tab" do %>
+      <i class="bi bi-telephone"></i> Contatos
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Crédito', edit_person_path(@person, aba: 'credito'), class: "nav-link #{'active' if params[:aba] == 'credito'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_person_path(@person, aba: 'credito'), class: "nav-link #{'active' if params[:aba] == 'credito'}", role: "tab" do %>
+      <i class="bi bi-credit-card"></i> Crédito
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Referências', edit_person_path(@person, aba: 'referencias'), class: "nav-link #{'active' if params[:aba] == 'referencias'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_person_path(@person, aba: 'referencias'), class: "nav-link #{'active' if params[:aba] == 'referencias'}", role: "tab" do %>
+      <i class="bi bi-people"></i> Referências
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Observações', edit_person_path(@person, aba: 'observacoes'), class: "nav-link #{'active' if params[:aba] == 'observacoes'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_person_path(@person, aba: 'observacoes'), class: "nav-link #{'active' if params[:aba] == 'observacoes'}", role: "tab" do %>
+      <i class="bi bi-chat-left-text"></i> Observações
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Obras', edit_person_path(@person, aba: 'obras'), class: "nav-link #{'active' if params[:aba] == 'obras'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_person_path(@person, aba: 'obras'), class: "nav-link #{'active' if params[:aba] == 'obras'}", role: "tab" do %>
+      <i class="bi bi-building"></i> Obras
+    <% end %>
+  </li>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_person_path(@person, aba: 'documentos'), class: "nav-link #{'active' if params[:aba] == 'documentos'}", role: "tab" do %>
+      <i class="bi bi-paperclip"></i> Documentos
+    <% end %>
   </li>
 </ul>
 <% else %>
-<ul class="nav nav-tabs mb-3">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Dados Gerais</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#">Fiscais</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#">Endereços</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#">Contatos</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#">Crédito</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#">Referências</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#">Observações</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#">Obras</a>
-  </li>
+<ul class="nav nav-tabs custom-tabs mb-3">
+  <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-person"></i> Dados Gerais</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-bank"></i> Fiscais</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-geo-alt"></i> Endereços</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-telephone"></i> Contatos</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-credit-card"></i> Crédito</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-people"></i> Referências</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-chat-left-text"></i> Observações</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-building"></i> Obras</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-paperclip"></i> Documentos</a></li>
 </ul>
 <% end %>

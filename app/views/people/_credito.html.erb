@@ -1,1 +1,114 @@
-<div class="card mb-3"><div class="card-header"><b>Crédito</b></div><div class="card-body"><p>Informações de crédito aqui.</p></div></div>
+<%= form_with(model: @person, local: true) do |f| %>
+  <%= hidden_field_tag :aba, 'credito' %>
+  <div class="card mb-3">
+    <div class="card-header">
+      <b>Informações de Crédito</b>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <%= f.label :credit_limit, 'Limite de Crédito (R$)', class: 'form-label-sm' %>
+          <%= f.number_field :credit_limit, step: '0.01', min: '0', class: 'form-control form-control-sm money-mask' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :credit_status, 'Status do Crédito', class: 'form-label-sm' %>
+          <%= f.select :credit_status, 
+            [['Aprovado', 'approved'], 
+             ['Pendente de Análise', 'pending'], 
+             ['Reprovado', 'disapproved'], 
+             ['Bloqueado', 'blocked']], 
+            { include_blank: 'Selecione...' }, 
+            { class: 'form-select form-select-sm' } 
+          %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :last_credit_check, 'Última Verificação', class: 'form-label-sm' %>
+          <%= f.date_field :last_credit_check, class: 'form-control form-control-sm' %>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <%= f.label :payment_method, 'Forma de Pagamento Padrão', class: 'form-label-sm' %>
+          <%= f.select :payment_method, 
+            [['Boleto Bancário', 'bank_slip'], 
+             ['Dinheiro', 'cash'], 
+             ['Cartão de Crédito', 'credit_card'], 
+             ['PIX', 'pix'],
+             ['Transferência Bancária', 'bank_transfer']], 
+            { include_blank: 'Selecione...' }, 
+            { class: 'form-select form-select-sm' } 
+          %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :payment_days, 'Prazo para Pagamento (dias)', class: 'form-label-sm' %>
+          <%= f.number_field :payment_days, min: '0', class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :invoicing_period, 'Período para Faturamento', class: 'form-label-sm' %>
+          <%= f.select :invoicing_period, 
+            [['Diário', 'daily'], 
+             ['Semanal', 'weekly'], 
+             ['Quinzenal', 'biweekly'], 
+             ['Mensal', 'monthly']], 
+            { include_blank: 'Selecione...' }, 
+            { class: 'form-select form-select-sm' } 
+          %>
+        </div>
+      </div>
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <b>Informações Bancárias</b>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <%= f.label :bank_name, 'Banco', class: 'form-label-sm' %>
+              <%= f.text_field :bank_name, class: 'form-control form-control-sm' %>
+            </div>
+            <div class="col-md-3">
+              <%= f.label :bank_agency, 'Agência', class: 'form-label-sm' %>
+              <%= f.text_field :bank_agency, class: 'form-control form-control-sm' %>
+            </div>
+            <div class="col-md-3">
+              <%= f.label :bank_account, 'Conta', class: 'form-label-sm' %>
+              <%= f.text_field :bank_account, class: 'form-control form-control-sm' %>
+            </div>
+            <div class="col-md-2">
+              <%= f.label :bank_account_digit, 'Dígito', class: 'form-label-sm' %>
+              <%= f.text_field :bank_account_digit, class: 'form-control form-control-sm' %>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-4">
+              <%= f.label :bank_pix_key, 'Chave PIX', class: 'form-label-sm' %>
+              <%= f.text_field :bank_pix_key, class: 'form-control form-control-sm' %>
+            </div>
+            <div class="col-md-4">
+              <%= f.label :bank_pix_type, 'Tipo de Chave PIX', class: 'form-label-sm' %>
+              <%= f.select :bank_pix_type, 
+                [['CPF/CNPJ', 'cpf_cnpj'], 
+                 ['E-mail', 'email'], 
+                 ['Celular', 'phone'], 
+                 ['Chave Aleatória', 'random']], 
+                { include_blank: 'Selecione...' }, 
+                { class: 'form-select form-select-sm' } 
+              %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :credit_notes, 'Observações sobre o Crédito', class: 'form-label-sm' %>
+        <%= f.text_area :credit_notes, rows: 3, class: 'form-control form-control-sm' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end mt-3">
+    <%= f.submit 'Salvar', class: 'btn btn-primary' %>
+  </div>
+<% end %>

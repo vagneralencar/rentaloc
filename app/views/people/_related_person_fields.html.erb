@@ -1,0 +1,22 @@
+<% if related_person&.errors&.any? %>
+  <tr>
+    <td colspan="5">
+      <div class="alert alert-danger">
+        <ul>
+          <% related_person.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    </td>
+  </tr>
+<% end %>
+<tr>
+  <%= form_with(model: [person, RelatedPerson.new], url: person_related_people_path(person), data: { turbo_frame: 'related_people' }, local: false) do |rp| %>
+    <td><%= rp.text_field :cpf_cnpj, class: 'form-control form-control-sm' %></td>
+    <td><%= rp.text_field :name, class: 'form-control form-control-sm' %></td>
+    <td><%= rp.text_field :relation_type, class: 'form-control form-control-sm' %></td>
+    <td class="text-center"><%= rp.check_box :active %></td>
+    <td><%= rp.submit 'Salvar', class: 'btn btn-success btn-sm' %></td>
+  <% end %>
+</tr>

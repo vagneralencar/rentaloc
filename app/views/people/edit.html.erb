@@ -1,21 +1,28 @@
 <h1>Editar Pessoa</h1>
 <%= render 'tabs', person: @person %>
 
-<% case params[:aba] %>
-<% when 'fiscais' %>
-  <%= render 'fiscais', person: @person %>
-<% when 'enderecos' %>
-  <%= render 'enderecos', person: @person %>
-<% when 'contatos' %>
-  <%= render 'contatos', person: @person %>
-<% when 'credito' %>
-  <%= render 'credito', person: @person %>
-<% when 'referencias' %>
-  <%= render 'referencias', person: @person %>
-<% when 'observacoes' %>
-  <%= render 'observacoes', person: @person %>
-<% when 'obras' %>
-  <%= render 'obras', person: @person %>
-<% else %>
-  <%= render 'form', person: @person %>
+<%= form_with(model: @person, local: true) do |f| %>
+  <% case params[:aba] %>
+  <% when 'fiscais' %>
+    <%= render 'fiscais', f: f, person: @person %>
+  <% when 'enderecos' %>
+    <%= render 'enderecos', f: f, person: @person %>
+  <% when 'contatos' %>
+    <%= render 'contatos', f: f, person: @person %>
+  <% when 'credito' %>
+    <%= render 'credito', f: f, person: @person %>
+  <% when 'referencias' %>
+    <%= render 'referencias', person: @person %>
+  <% when 'observacoes' %>
+    <%= render 'observacoes', f: f, person: @person %>
+  <% when 'obras' %>
+    <%= render 'obras', f: f, person: @person %>
+  <% when 'documentos' %>
+    <%= render 'documentos', f: f, person: @person %>
+  <% else %>
+    <%= render 'form', f: f, person: @person %>
+  <% end %>
+  <div class="mt-3">
+    <%= f.submit 'Salvar', class: 'btn btn-primary' %>
+  </div>
 <% end %>

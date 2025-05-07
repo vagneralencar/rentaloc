@@ -41,3 +41,42 @@ document.addEventListener("turbo:load", function() {
 
 // Configurações do Turbo
 Turbo.setProgressBarDelay(100)
+
+// Nested fields handler para Rails forms (dinâmico, para importmap)
+document.addEventListener('turbo:load', () => {
+  function removeFields(link) {
+    const field = link.closest('tr');
+    if (field.querySelector('input[type="hidden"][name*="_destroy"]")) {
+      field.querySelector('input[type="hidden"][name*="_destroy"]').value = 1;
+      field.style.display = 'none';
+    } else {
+      field.remove();
+    }
+  }
+
+  function addFields(link, association) {
+    // Busca o template pelo id
+    const template = document.getElementById(association + '_fields_template');
+    if (!template) return;
+    // Busca o tbody mais próximo do botão
+    let tableBody = link.closest('.card').querySelector('tbody');
+    if (!tableBody) {
+      // fallback: busca o primeiro tbody da página
+      tableBody = document.querySelector('tbody');
+    }
+    const newId = new Date().getTime();
+    const newRow = template.innerHTML.replace(/__INDEX__/g, newId);
+    tableBody.insertAdjacentHTML('beforeend', newRow);
+  }
+
+  document.body.addEventListener('click', function(e) {
+    if (e.target.matches('[data-action="remove-fields"]')) {
+      e.preventDefault();
+      removeFields(e.target);
+    }
+    if (e.target.matches('[data-action="add-fields"]')) {
+      e.preventDefault();
+      addFields(e.target, e.target.dataset.association);
+    }
+  });
+});

@@ -1,1 +1,77 @@
-<div class="card mb-3"><div class="card-header"><b>Dados Fiscais/Tributários</b></div><div class="card-body"><p>Campos fiscais/tributários aqui.</p></div></div>
+<%= form_with(model: @person, local: true) do |f| %>
+  <%= hidden_field_tag :aba, 'fiscais' %>
+  <div class="card mb-3">
+    <div class="card-header"><b>Dados Fiscais/Tributários</b></div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <%= f.label :fiscal_type, 'Tipo Fiscal', class: 'form-label-sm' %>
+          <%= f.select :fiscal_type, options_for_select([['Contribuinte', 'taxpayer'], ['Não Contribuinte', 'non_taxpayer'], ['Isento', 'exempt']], @person.fiscal_type), { include_blank: 'Selecione' }, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :state_registration, 'Inscrição Estadual', class: 'form-label-sm' %>
+          <%= f.text_field :state_registration, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :municipal_registration, 'Inscrição Municipal', class: 'form-label-sm' %>
+          <%= f.text_field :municipal_registration, class: 'form-control form-control-sm' %>
+        </div>
+      </div>
+      
+      <div class="row mt-2">
+        <div class="col-md-4">
+          <%= f.label :fiscal_email, 'Email para NF-e/NFS-e', class: 'form-label-sm' %>
+          <%= f.email_field :fiscal_email, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :cnae, 'CNAE', class: 'form-label-sm' %>
+          <%= f.text_field :cnae, class: 'form-control form-control-sm' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :tax_regime, 'Regime Tributário', class: 'form-label-sm' %>
+          <%= f.select :tax_regime, options_for_select([['Simples Nacional', 'simple'], ['Lucro Presumido', 'presumed'], ['Lucro Real', 'real']], @person.tax_regime), { include_blank: 'Selecione' }, class: 'form-control form-control-sm' %>
+        </div>
+      </div>
+      
+      <div class="row mt-2">
+        <div class="col-md-12">
+          <div class="form-check">
+            <%= f.check_box :withhold_iss, class: 'form-check-input' %>
+            <%= f.label :withhold_iss, 'Retenção de ISS', class: 'form-check-label' %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-check">
+            <%= f.check_box :withhold_inss, class: 'form-check-input' %>
+            <%= f.label :withhold_inss, 'Retenção de INSS', class: 'form-check-label' %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-check">
+            <%= f.check_box :withhold_ir, class: 'form-check-input' %>
+            <%= f.label :withhold_ir, 'Retenção de IR', class: 'form-check-label' %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-check">
+            <%= f.check_box :withhold_pis_cofins_csll, class: 'form-check-input' %>
+            <%= f.label :withhold_pis_cofins_csll, 'Retenção de PIS/COFINS/CSLL', class: 'form-check-label' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <%= f.submit 'Salvar', class: 'btn btn-primary btn-sm' %>
+      <%= link_to 'Voltar', people_path, class: 'btn btn-secondary btn-sm' %>
+    </div>
+  </div>
+<% end %>

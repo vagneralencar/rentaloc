@@ -1,1 +1,144 @@
-<div class="card mb-3"><div class="card-header"><b>Referências</b></div><div class="card-body"><p>Cadastro de referências aqui.</p></div></div>
+<div class="card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span><i class="bi bi-building"></i> <b>Referências Comerciais</b></span>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-sm mb-0">
+      <thead>
+        <tr>
+          <th>Empresa</th>
+          <th>Telefone</th>
+          <th>Atendente</th>
+          <th>Primeira Compra</th>
+          <th>Maior Compra</th>
+          <th>Última Compra</th>
+          <th>Forma Pagamento</th>
+          <th>Observação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% person.commercial_references.each_with_index do |cr, idx| %>
+          <tr>
+            <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][<%= idx %>][company_name]" value="<%= cr.company_name %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][<%= idx %>][phone]" value="<%= cr.phone %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][<%= idx %>][attendant]" value="<%= cr.attendant %>" /></td>
+            <td><input class="form-control form-control-sm" type="date" name="person[commercial_references_attributes][<%= idx %>][first_purchase]" value="<%= cr.first_purchase %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][<%= idx %>][largest_purchase]" value="<%= cr.largest_purchase %>" /></td>
+            <td><input class="form-control form-control-sm" type="date" name="person[commercial_references_attributes][<%= idx %>][last_purchase]" value="<%= cr.last_purchase %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][<%= idx %>][payment_method]" value="<%= cr.payment_method %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][<%= idx %>][observation]" value="<%= cr.observation %>" /></td>
+            <td><a href="#" class="btn btn-sm btn-outline-danger" data-action="remove-fields">🗑️</a></td>
+            <input type="hidden" name="person[commercial_references_attributes][<%= idx %>][id]" value="<%= cr.id %>" />
+            <input type="hidden" name="person[commercial_references_attributes][<%= idx %>][_destroy]" value="false" />
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="mt-2">
+      <button type="button" class="btn btn-info btn-sm" data-action="add-fields" data-association="commercial_references">Incluir Referência Comercial</button>
+    </div>
+    <template id="commercial_references_fields_template">
+      <tr>
+        <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][__INDEX__][company_name]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][__INDEX__][phone]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][__INDEX__][attendant]" /></td>
+        <td><input class="form-control form-control-sm" type="date" name="person[commercial_references_attributes][__INDEX__][first_purchase]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][__INDEX__][largest_purchase]" /></td>
+        <td><input class="form-control form-control-sm" type="date" name="person[commercial_references_attributes][__INDEX__][last_purchase]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][__INDEX__][payment_method]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[commercial_references_attributes][__INDEX__][observation]" /></td>
+        <td><a href="#" class="btn btn-sm btn-outline-danger" data-action="remove-fields">🗑️</a></td>
+        <input type="hidden" name="person[commercial_references_attributes][__INDEX__][_destroy]" value="false" />
+      </tr>
+    </template>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span><i class="bi bi-bank"></i> <b>Referências Bancárias</b></span>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-sm mb-0">
+      <thead>
+        <tr>
+          <th>Banco</th>
+          <th>Agência</th>
+          <th>Conta</th>
+          <th>Telefone</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% person.bank_references.each_with_index do |br, idx| %>
+          <tr>
+            <td><input class="form-control form-control-sm" type="text" name="person[bank_references_attributes][<%= idx %>][bank_name]" value="<%= br.bank_name %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[bank_references_attributes][<%= idx %>][agency]" value="<%= br.agency %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[bank_references_attributes][<%= idx %>][account]" value="<%= br.account %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[bank_references_attributes][<%= idx %>][phone]" value="<%= br.phone %>" /></td>
+            <td><a href="#" class="btn btn-sm btn-outline-danger" data-action="remove-fields">🗑️</a></td>
+            <input type="hidden" name="person[bank_references_attributes][<%= idx %>][id]" value="<%= br.id %>" />
+            <input type="hidden" name="person[bank_references_attributes][<%= idx %>][_destroy]" value="false" />
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="mt-2">
+      <button type="button" class="btn btn-info btn-sm" data-action="add-fields" data-association="bank_references">Incluir Referência Bancária</button>
+    </div>
+    <template id="bank_references_fields_template">
+      <tr>
+        <td><input class="form-control form-control-sm" type="text" name="person[bank_references_attributes][__INDEX__][bank_name]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[bank_references_attributes][__INDEX__][agency]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[bank_references_attributes][__INDEX__][account]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[bank_references_attributes][__INDEX__][phone]" /></td>
+        <td><a href="#" class="btn btn-sm btn-outline-danger" data-action="remove-fields">🗑️</a></td>
+        <input type="hidden" name="person[bank_references_attributes][__INDEX__][_destroy]" value="false" />
+      </tr>
+    </template>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span><i class="bi bi-people"></i> <b>Pessoas Relacionadas</b></span>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-sm mb-0">
+      <thead>
+        <tr>
+          <th>CPF/CNPJ</th>
+          <th>Nome</th>
+          <th>Tipo Relação</th>
+          <th>Ativo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% person.related_people.each do |rp| %>
+          <tr>
+            <td><%= rp.cpf_cnpj %></td>
+            <td><%= rp.name %></td>
+            <td><%= rp.relation_type %></td>
+            <td class="text-center"><%= rp.active ? 'Sim' : 'Não' %></td>
+            <td></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="mt-2">
+      <button type="button" class="btn btn-info btn-sm" data-action="add-fields" data-association="related_people">Incluir Pessoa Relacionada</button>
+    </div>
+    <template id="related_people_fields_template">
+      <tr>
+        <td><input class="form-control form-control-sm" type="text" name="person[related_people_attributes][__INDEX__][cpf_cnpj]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[related_people_attributes][__INDEX__][name]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[related_people_attributes][__INDEX__][relation_type]" /></td>
+        <td class="text-center"><input type="checkbox" name="person[related_people_attributes][__INDEX__][active]" value="1" /></td>
+        <td><a href="#" class="btn btn-sm btn-outline-danger" data-action="remove-fields">🗑️</a></td>
+        <input type="hidden" name="person[related_people_attributes][__INDEX__][_destroy]" value="false" />
+      </tr>
+    </template>
+  </div>
+</div>

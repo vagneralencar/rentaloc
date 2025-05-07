@@ -9,12 +9,22 @@ class Person < ApplicationRecord
   has_many :works, dependent: :destroy
   has_many :credit_references, dependent: :destroy
   has_many :observations, as: :observable, dependent: :destroy
+  has_many :person_documents, dependent: :destroy
+  has_many :commercial_references, dependent: :destroy
+  has_many :bank_references, dependent: :destroy
+  has_many :related_people, dependent: :destroy
+  
+  # Upload de documentos do cliente (ex: contrato social, cartão CNPJ, etc)
+  has_many_attached :documents
   
   # Aceita nested attributes
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :contacts, allow_destroy: true
   accepts_nested_attributes_for :credit_references, allow_destroy: true
   accepts_nested_attributes_for :observations, allow_destroy: true
+  accepts_nested_attributes_for :commercial_references, allow_destroy: true
+  accepts_nested_attributes_for :bank_references, allow_destroy: true
+  accepts_nested_attributes_for :related_people, allow_destroy: true
   
   # Validações
   validates :name, presence: true

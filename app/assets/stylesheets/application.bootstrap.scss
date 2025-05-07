@@ -1,2 +1,30 @@
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import '../../node_modules/bootstrap-icons/font/bootstrap-icons';
+
+/* Customização das abas Bootstrap para AdminLTE/ERP */
+.custom-tabs .nav-link {
+  border-radius: 0.75rem 0.75rem 0 0 !important;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #6c757d;
+  background: #f8f9fa;
+  border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s, color 0.2s;
+}
+.custom-tabs .nav-link.active {
+  background: #fff;
+  color: #007bff;
+  border-color: #dee2e6 #dee2e6 #007bff;
+  border-bottom: 2px solid #007bff;
+  z-index: 2;
+}
+.custom-tabs .nav-link:not(.active):hover {
+  background: #ececec;
+  color: #0056b3;
+}
+.custom-tabs .nav-link i {
+  font-size: 1.1em;
+}

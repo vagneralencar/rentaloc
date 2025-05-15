@@ -32,7 +32,7 @@ gem "sidekiq-scheduler"
 gem "redis"
 
 # UI e Templates
-gem "jsbundling-rails"
+#gem "jsbundling-rails"
 gem "cssbundling-rails"
 gem "slim-rails"
 gem "simple_form"

@@ -1,3 +1,4 @@
+alert("Olá, mundo!");
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "./controllers"
@@ -7,8 +8,7 @@ import * as bootstrap from "bootstrap"
 import "admin-lte"
 
 // Select2
-import "select2"
-import "select2/dist/css/select2.css"
+// import "select2"
 
 // Máscaras de input
 import "jquery-mask-plugin"
@@ -42,11 +42,12 @@ document.addEventListener("turbo:load", function() {
 // Configurações do Turbo
 Turbo.setProgressBarDelay(100)
 
+
 // Nested fields handler para Rails forms (dinâmico, para importmap)
 document.addEventListener('turbo:load', () => {
   function removeFields(link) {
     const field = link.closest('tr');
-    if (field.querySelector('input[type="hidden"][name*="_destroy"]")) {
+    if (field.querySelector('input[type="hidden"][name*="_destroy"]')) {
       field.querySelector('input[type="hidden"][name*="_destroy"]').value = 1;
       field.style.display = 'none';
     } else {
@@ -55,11 +56,13 @@ document.addEventListener('turbo:load', () => {
   }
 
   function addFields(link, association) {
-    // Busca o template pelo id
-    const template = document.getElementById(association + '_fields_template');
+    // Busca o template pelo id, mas apenas dentro do .card mais próximo
+    const card = link.closest('.card');
+    if (!card) return;
+    const template = card.querySelector(`#${association}_fields_template`);
     if (!template) return;
-    // Busca o tbody mais próximo do botão
-    let tableBody = link.closest('.card').querySelector('tbody');
+    // Busca o tbody mais próximo do botão dentro do mesmo card
+    let tableBody = card.querySelector('tbody');
     if (!tableBody) {
       // fallback: busca o primeiro tbody da página
       tableBody = document.querySelector('tbody');
@@ -80,3 +83,5 @@ document.addEventListener('turbo:load', () => {
     }
   });
 });
+
+// ...existing code...

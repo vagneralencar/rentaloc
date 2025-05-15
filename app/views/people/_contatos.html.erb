@@ -1,166 +1,62 @@
 <%= form_with(model: @person, local: true) do |f| %>
   <%= hidden_field_tag :aba, 'contatos' %>
-  <div class="card mb-3">
+  <div class="card mb-4">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <b>Contatos</b>
-      <button type="button" class="btn btn-sm btn-success" id="add-contact-btn">
-        <i class="fas fa-plus"></i> Adicionar Contato
-      </button>
+      <span><i class="bi bi-telephone"></i> <b>Contatos</b></span>
     </div>
-    <div class="card-body">
-      <div id="contacts">
-        <%= f.fields_for :contacts do |contact| %>
-          <div class="contact-fields card mb-3">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <span>Contato <%= contact.index + 1 %></span>
-              <button type="button" class="btn btn-sm btn-danger remove-contact-btn">
-                <i class="fas fa-trash"></i> Remover
-              </button>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <%= contact.label :name, 'Nome', class: 'form-label-sm' %>
-                  <%= contact.text_field :name, class: 'form-control form-control-sm' %>
-                </div>
-                <div class="col-md-3">
-                  <%= contact.label :department, 'Departamento', class: 'form-label-sm' %>
-                  <%= contact.text_field :department, class: 'form-control form-control-sm' %>
-                </div>
-                <div class="col-md-3">
-                  <%= contact.label :position, 'Cargo', class: 'form-label-sm' %>
-                  <%= contact.text_field :position, class: 'form-control form-control-sm' %>
-                </div>
-              </div>
-              
-              <div class="row mt-2">
-                <div class="col-md-3">
-                  <%= contact.label :email, 'E-mail', class: 'form-label-sm' %>
-                  <%= contact.email_field :email, class: 'form-control form-control-sm' %>
-                </div>
-                <div class="col-md-3">
-                  <%= contact.label :phone, 'Telefone', class: 'form-label-sm' %>
-                  <%= contact.text_field :phone, class: 'form-control form-control-sm phone-mask' %>
-                </div>
-                <div class="col-md-3">
-                  <%= contact.label :mobile, 'Celular', class: 'form-label-sm' %>
-                  <%= contact.text_field :mobile, class: 'form-control form-control-sm mobile-mask' %>
-                </div>
-                <div class="col-md-3">
-                  <%= contact.label :birthday, 'Data de Nascimento', class: 'form-label-sm' %>
-                  <%= contact.date_field :birthday, class: 'form-control form-control-sm' %>
-                </div>
-              </div>
-              
-              <div class="row mt-2">
-                <div class="col-md-12">
-                  <%= contact.label :notes, 'Observações', class: 'form-label-sm' %>
-                  <%= contact.text_area :notes, rows: 2, class: 'form-control form-control-sm' %>
-                </div>
-              </div>
-              
-              <div class="row mt-2">
-                <div class="col-md-4">
-                  <div class="form-check">
-                    <%= contact.check_box :primary, class: 'form-check-input' %>
-                    <%= contact.label :primary, 'Contato principal', class: 'form-check-label' %>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-check">
-                    <%= contact.check_box :financial, class: 'form-check-input' %>
-                    <%= contact.label :financial, 'Contato financeiro', class: 'form-check-label' %>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-check">
-                    <%= contact.check_box :commercial, class: 'form-check-input' %>
-                    <%= contact.label :commercial, 'Contato comercial', class: 'form-check-label' %>
-                  </div>
-                </div>
-              </div>
-              
-              <%= contact.hidden_field :_destroy %>
-            </div>
-          </div>
-        <% end %>
+    <div class="card-body p-0">
+      <table class="table table-sm mb-0">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Celular</th>
+            <th>Departamento</th>
+            <th>Cargo</th>
+            <th>Principal</th>
+            <th>Financeiro</th>
+            <th>Comercial</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @person.contacts.each_with_index do |contact, idx| %>
+            <tr>
+              <td><input class="form-control form-control-sm" type="text" name="person[contacts_attributes][<%= idx %>][name]" value="<%= contact.name %>" /></td>
+              <td><input class="form-control form-control-sm" type="email" name="person[contacts_attributes][<%= idx %>][email]" value="<%= contact.email %>" /></td>
+              <td><input class="form-control form-control-sm phone-mask" type="text" name="person[contacts_attributes][<%= idx %>][phone]" value="<%= contact.phone %>" /></td>
+              <td><input class="form-control form-control-sm mobile-mask" type="text" name="person[contacts_attributes][<%= idx %>][mobile]" value="<%= contact.mobile %>" /></td>
+              <td><input class="form-control form-control-sm" type="text" name="person[contacts_attributes][<%= idx %>][department]" value="<%= contact.department %>" /></td>
+              <td><input class="form-control form-control-sm" type="text" name="person[contacts_attributes][<%= idx %>][position]" value="<%= contact.position %>" /></td>
+              <td class="text-center"><input type="checkbox" name="person[contacts_attributes][<%= idx %>][primary]" value="1" <%= contact.primary ? 'checked' : '' %> /></td>
+              <td class="text-center"><input type="checkbox" name="person[contacts_attributes][<%= idx %>][financial]" value="1" <%= contact.financial ? 'checked' : '' %> /></td>
+              <td class="text-center"><input type="checkbox" name="person[contacts_attributes][<%= idx %>][commercial]" value="1" <%= contact.commercial ? 'checked' : '' %> /></td>
+              <td><a href="#" class="btn btn-sm btn-outline-danger" data-action="remove-fields">🗑️</a></td>
+              <input type="hidden" name="person[contacts_attributes][<%= idx %>][id]" value="<%= contact.id %>" />
+              <input type="hidden" name="person[contacts_attributes][<%= idx %>][_destroy]" value="false" />
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="mt-2">
+        <button type="button" class="btn btn-info btn-sm" data-action="add-fields" data-association="contacts">Adicionar Contato</button>
       </div>
-      
-      <div id="contact-template" style="display: none;">
-        <div class="contact-fields card mb-3">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <span>Novo Contato</span>
-            <button type="button" class="btn btn-sm btn-danger remove-contact-btn">
-              <i class="fas fa-trash"></i> Remover
-            </button>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <label for="NEW_RECORD_name" class="form-label-sm">Nome</label>
-                <input type="text" name="person[contacts_attributes][NEW_RECORD][name]" id="NEW_RECORD_name" class="form-control form-control-sm">
-              </div>
-              <div class="col-md-3">
-                <label for="NEW_RECORD_department" class="form-label-sm">Departamento</label>
-                <input type="text" name="person[contacts_attributes][NEW_RECORD][department]" id="NEW_RECORD_department" class="form-control form-control-sm">
-              </div>
-              <div class="col-md-3">
-                <label for="NEW_RECORD_position" class="form-label-sm">Cargo</label>
-                <input type="text" name="person[contacts_attributes][NEW_RECORD][position]" id="NEW_RECORD_position" class="form-control form-control-sm">
-              </div>
-            </div>
-            
-            <div class="row mt-2">
-              <div class="col-md-3">
-                <label for="NEW_RECORD_email" class="form-label-sm">E-mail</label>
-                <input type="email" name="person[contacts_attributes][NEW_RECORD][email]" id="NEW_RECORD_email" class="form-control form-control-sm">
-              </div>
-              <div class="col-md-3">
-                <label for="NEW_RECORD_phone" class="form-label-sm">Telefone</label>
-                <input type="text" name="person[contacts_attributes][NEW_RECORD][phone]" id="NEW_RECORD_phone" class="form-control form-control-sm phone-mask">
-              </div>
-              <div class="col-md-3">
-                <label for="NEW_RECORD_mobile" class="form-label-sm">Celular</label>
-                <input type="text" name="person[contacts_attributes][NEW_RECORD][mobile]" id="NEW_RECORD_mobile" class="form-control form-control-sm mobile-mask">
-              </div>
-              <div class="col-md-3">
-                <label for="NEW_RECORD_birthday" class="form-label-sm">Data de Nascimento</label>
-                <input type="date" name="person[contacts_attributes][NEW_RECORD][birthday]" id="NEW_RECORD_birthday" class="form-control form-control-sm">
-              </div>
-            </div>
-            
-            <div class="row mt-2">
-              <div class="col-md-12">
-                <label for="NEW_RECORD_notes" class="form-label-sm">Observações</label>
-                <textarea name="person[contacts_attributes][NEW_RECORD][notes]" id="NEW_RECORD_notes" rows="2" class="form-control form-control-sm"></textarea>
-              </div>
-            </div>
-            
-            <div class="row mt-2">
-              <div class="col-md-4">
-                <div class="form-check">
-                  <input type="checkbox" name="person[contacts_attributes][NEW_RECORD][primary]" id="NEW_RECORD_primary" class="form-check-input">
-                  <label for="NEW_RECORD_primary" class="form-check-label">Contato principal</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-check">
-                  <input type="checkbox" name="person[contacts_attributes][NEW_RECORD][financial]" id="NEW_RECORD_financial" class="form-check-input">
-                  <label for="NEW_RECORD_financial" class="form-check-label">Contato financeiro</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-check">
-                  <input type="checkbox" name="person[contacts_attributes][NEW_RECORD][commercial]" id="NEW_RECORD_commercial" class="form-check-input">
-                  <label for="NEW_RECORD_commercial" class="form-check-label">Contato comercial</label>
-                </div>
-              </div>
-            </div>
-            
-            <input type="hidden" name="person[contacts_attributes][NEW_RECORD][_destroy]" id="NEW_RECORD__destroy" value="false">
-          </div>
-        </div>
-      </div>
+      <template id="contacts_fields_template">
+        <tr>
+          <td><input class="form-control form-control-sm" type="text" name="person[contacts_attributes][__INDEX__][name]" /></td>
+          <td><input class="form-control form-control-sm" type="email" name="person[contacts_attributes][__INDEX__][email]" /></td>
+          <td><input class="form-control form-control-sm phone-mask" type="text" name="person[contacts_attributes][__INDEX__][phone]" /></td>
+          <td><input class="form-control form-control-sm mobile-mask" type="text" name="person[contacts_attributes][__INDEX__][mobile]" /></td>
+          <td><input class="form-control form-control-sm" type="text" name="person[contacts_attributes][__INDEX__][department]" /></td>
+          <td><input class="form-control form-control-sm" type="text" name="person[contacts_attributes][__INDEX__][position]" /></td>
+          <td class="text-center"><input type="checkbox" name="person[contacts_attributes][__INDEX__][primary]" value="1" /></td>
+          <td class="text-center"><input type="checkbox" name="person[contacts_attributes][__INDEX__][financial]" value="1" /></td>
+          <td class="text-center"><input type="checkbox" name="person[contacts_attributes][__INDEX__][commercial]" value="1" /></td>
+          <td><a href="#" class="btn btn-sm btn-outline-danger" data-action="remove-fields">🗑️</a></td>
+          <input type="hidden" name="person[contacts_attributes][__INDEX__][_destroy]" value="false" />
+        </tr>
+      </template>
     </div>
     <div class="card-footer text-end">
       <%= f.submit 'Salvar', class: 'btn btn-primary btn-sm' %>

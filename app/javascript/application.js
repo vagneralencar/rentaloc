@@ -12,6 +12,8 @@ import "admin-lte"
 
 // Máscaras de input
 import "jquery-mask-plugin"
+import Rails from "@rails/ujs"
+Rails.start()
 
 // Configurações globais
 document.addEventListener("turbo:load", function() {

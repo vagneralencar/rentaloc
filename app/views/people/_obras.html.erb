@@ -1,36 +1,89 @@
-<div class="card mb-3">
-  <div class="card-header"><b>Obras do Cliente</b></div>
-  <div class="card-body">
-    <div class="alert alert-info">Cadastre aqui as obras vinculadas ao cliente, com endereço e detalhes específicos.</div>
-    <div class="row">
-      <div class="col-md-6">
-        <%= f.label :work_name, 'Nome da Obra', class: 'form-label-sm' %>
-        <%= f.text_field :work_name, class: 'form-control form-control-sm' %>
-      </div>
-      <div class="col-md-6">
-        <%= f.label :work_address, 'Endereço da Obra', class: 'form-label-sm' %>
-        <%= f.text_field :work_address, class: 'form-control form-control-sm' %>
-      </div>
+<div class="card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span><i class="bi bi-building"></i> <b>Obras do Cliente</b></span>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-sm mb-0">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Status</th>
+          <th>Tipo</th>
+          <th>Início</th>
+          <th>Fim</th>
+          <th>Contato</th>
+          <th>Telefone</th>
+          <th>Endereço</th>
+          <th>Email</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @person.works.each_with_index do |work, idx| %>
+          <tr>
+            <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][<%= idx %>][code]" value="<%= work.code %>" readonly /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][<%= idx %>][name]" value="<%= work.name %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][<%= idx %>][description]" value="<%= work.description %>" /></td>
+            <td>
+              <select class="form-control form-control-sm" name="person[works_attributes][<%= idx %>][status]">
+                <% Work.statuses.each_key do |status| %>
+                  <option value="<%= status %>" <%= 'selected' if work.status == status %>><%= status.humanize %></option>
+                <% end %>
+              </select>
+            </td>
+            <td>
+              <select class="form-control form-control-sm" name="person[works_attributes][<%= idx %>][work_type]">
+                <% Work.work_types.each_key do |type| %>
+                  <option value="<%= type %>" <%= 'selected' if work.work_type == type %>><%= type.humanize %></option>
+                <% end %>
+              </select>
+            </td>
+            <td><input class="form-control form-control-sm" type="date" name="person[works_attributes][<%= idx %>][start_date]" value="<%= work.start_date %>" /></td>
+            <td><input class="form-control form-control-sm" type="date" name="person[works_attributes][<%= idx %>][end_date]" value="<%= work.end_date %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][<%= idx %>][contact_name]" value="<%= work.contact_name %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][<%= idx %>][contact_phone]" value="<%= work.contact_phone %>" /></td>
+            <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][<%= idx %>][address]" value="<%= work.address %>" /></td>
+            <td><input class="form-control form-control-sm" type="email" name="person[works_attributes][<%= idx %>][contact_email]" value="<%= work.contact_email %>" /></td>
+            <td><a href="#" class="btn btn-sm btn-outline-danger" data-action="remove-fields">🗑️</a></td>
+            <input type="hidden" name="person[works_attributes][<%= idx %>][id]" value="<%= work.id %>" />
+            <input type="hidden" name="person[works_attributes][<%= idx %>][_destroy]" value="false" />
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="mt-2">
+      <button type="button" class="btn btn-info btn-sm" data-action="add-fields" data-association="works">Adicionar Obra</button>
     </div>
-    <div class="row mt-2">
-      <div class="col-md-6">
-        <%= f.label :work_city, 'Cidade', class: 'form-label-sm' %>
-        <%= f.text_field :work_city, class: 'form-control form-control-sm' %>
-      </div>
-      <div class="col-md-3">
-        <%= f.label :work_state, 'UF', class: 'form-label-sm' %>
-        <%= f.text_field :work_state, class: 'form-control form-control-sm' %>
-      </div>
-      <div class="col-md-3">
-        <%= f.label :work_zip, 'CEP', class: 'form-label-sm' %>
-        <%= f.text_field :work_zip, class: 'form-control form-control-sm' %>
-      </div>
-    </div>
-    <div class="row mt-2">
-      <div class="col-md-12">
-        <%= f.label :work_notes, 'Observações da Obra', class: 'form-label-sm' %>
-        <%= f.text_area :work_notes, class: 'form-control form-control-sm', rows: 2 %>
-      </div>
-    </div>
+    <template id="works_fields_template">
+      <tr>
+        <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][__INDEX__][code]" readonly /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][__INDEX__][name]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][__INDEX__][description]" /></td>
+        <td>
+          <select class="form-control form-control-sm" name="person[works_attributes][__INDEX__][status]">
+            <% Work.statuses.each_key do |status| %>
+              <option value="<%= status %>"><%= status.humanize %></option>
+            <% end %>
+          </select>
+        </td>
+        <td>
+          <select class="form-control form-control-sm" name="person[works_attributes][__INDEX__][work_type]">
+            <% Work.work_types.each_key do |type| %>
+              <option value="<%= type %>"><%= type.humanize %></option>
+            <% end %>
+          </select>
+        </td>
+        <td><input class="form-control form-control-sm" type="date" name="person[works_attributes][__INDEX__][start_date]" /></td>
+        <td><input class="form-control form-control-sm" type="date" name="person[works_attributes][__INDEX__][end_date]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][__INDEX__][contact_name]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][__INDEX__][contact_phone]" /></td>
+        <td><input class="form-control form-control-sm" type="text" name="person[works_attributes][__INDEX__][address]" /></td>
+        <td><input class="form-control form-control-sm" type="email" name="person[works_attributes][__INDEX__][contact_email]" /></td>
+        <td><a href="#" class="btn btn-sm btn-outline-danger" data-action="remove-fields">🗑️</a></td>
+        <input type="hidden" name="person[works_attributes][__INDEX__][_destroy]" value="false" />
+      </tr>
+    </template>
   </div>
 </div>

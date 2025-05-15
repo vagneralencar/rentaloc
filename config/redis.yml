@@ -1,16 +1,12 @@
 default: &default
   url: redis://localhost:6379/0
-  namespace: gestaoloc
 
 development:
   <<: *default
-  namespace: gestaoloc_development
 
 test:
   <<: *default
-  namespace: gestaoloc_test
 
 production:
   <<: *default
-  url: <%= ENV['REDIS_URL'] %>
-  namespace: gestaoloc_production 
+  url: <%= ENV['REDIS_URL'] %> 

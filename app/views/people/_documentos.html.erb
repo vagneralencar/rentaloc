@@ -27,7 +27,7 @@
                 <strong><%= doc.description %></strong> - 
                 <%= link_to doc.file.filename.to_s, url_for(doc.file), target: '_blank', rel: 'noopener' %>
               </div>
-              <%= link_to 'Remover', person_person_document_path(person, doc), method: :delete, data: { confirm: 'Tem certeza que deseja remover este documento?' }, class: 'btn btn-sm btn-danger' %>
+              <%= button_to 'Remover', person_person_document_path(person, doc), method: :delete, data: { confirm: 'Tem certeza que deseja remover este documento?' }, class: 'btn btn-sm btn-danger' %>
             </li>
           <% end %>
         </ul>

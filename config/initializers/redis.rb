@@ -8,8 +8,7 @@ $redis = Redis.new(url: ENV.fetch('REDIS_URL', 'redis://localhost:6379/0')) unle
 
 # Configure Redis
 REDIS_CONFIG = {
-  url: ENV.fetch('REDIS_URL', 'redis://localhost:6379/0'),
-  namespace: "gestaoloc_#{Rails.env}"
+  url: ENV.fetch('REDIS_URL', 'redis://localhost:6379/0')
 }.freeze
 
 # Configure Sidekiq
@@ -60,7 +59,6 @@ end
 # Configurações específicas para ambiente de teste
 if Rails.env.test?
   REDIS_CONFIG = {
-    url: 'redis://localhost:6379/0',
-    namespace: 'gestaoloc_test'
+    url: 'redis://localhost:6379/0'
   }
 end 

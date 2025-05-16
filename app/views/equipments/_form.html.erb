@@ -1,14 +1,4 @@
 <%= form_with(model: equipment, local: true, html: { class: 'form-horizontal' }) do |f| %>
-  <% if equipment.errors.any? %>
-    <div class="alert alert-danger">
-      <h4><%= pluralize(equipment.errors.count, 'erro') %> impediram este equipamento de ser salvo:</h4>
-      <ul>
-        <% equipment.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <div class="card card-primary">
     <div class="card-header">
@@ -50,5 +40,14 @@
         </div>
       </div>
     </div>
+  </div>
+  
+  <div class="mt-4">
+    <% if equipment.new_record? %>
+      <%= f.submit 'Criar Equipamento', class: 'btn btn-primary' %>
+    <% else %>
+      <%= f.submit 'Atualizar Equipamento', class: 'btn btn-primary' %>
+    <% end %>
+    <%= link_to 'Cancelar', equipments_path, class: 'btn btn-secondary' %>
   </div>
 <% end %>

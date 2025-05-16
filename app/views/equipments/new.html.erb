@@ -2,22 +2,15 @@
 
 <%= render 'tabs', equipment: @equipment %>
 
-<%= form_with(model: @equipment, local: true) do |f| %>
-  <% if @equipment.errors.any? %>
-    <div class="alert alert-danger">
-      <h4><%= pluralize(@equipment.errors.count, 'erro') %> impediram este equipamento de ser salvo:</h4>
-      <ul>
-        <% @equipment.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <%= render 'form', equipment: @equipment %>
-
-  <div class="mt-4">
-    <%= f.submit 'Criar Equipamento', class: 'btn btn-primary' %>
-    <%= link_to 'Cancelar', equipments_path, class: 'btn btn-secondary' %>
+<% if @equipment.errors.any? %>
+  <div class="alert alert-danger">
+    <h4><%= pluralize(@equipment.errors.count, 'erro') %> impediram este equipamento de ser salvo:</h4>
+    <ul>
+      <% @equipment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
   </div>
 <% end %>
+
+<%= render 'form', equipment: @equipment %>

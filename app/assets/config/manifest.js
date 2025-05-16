@@ -2,6 +2,9 @@
 //= link controllers/hello_controller.js
 //= link controllers/application.js
 //= link_tree ../images
+//= link_directory ../webfonts .woff
+//= link_directory ../webfonts .woff2
+//= link_directory ../webfonts .ttf
 //= link application.js
 //= link adminlte.js
 //= link select2.js

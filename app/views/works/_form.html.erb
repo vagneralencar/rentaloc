@@ -1,0 +1,222 @@
+<%= form_with(model: work, local: true) do |f| %>
+  <% if work.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(work.errors.count, 'erro') %> impediram esta obra de ser salva:</h4>
+      <ul>
+        <% work.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label :person_id, 'Cliente', class: 'form-label' %>
+            <%= f.collection_select :person_id, 
+                Person.customers, 
+                :id, 
+                :name, 
+                { include_blank: 'Selecione um cliente' }, 
+                { class: 'form-control select2' } %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label :name, 'Nome', class: 'form-label' %>
+            <%= f.text_field :name, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <%= f.label :description, 'Descrição', class: 'form-label' %>
+            <%= f.text_area :description, class: 'form-control', rows: 3 %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :status, 'Status', class: 'form-label' %>
+            <%= f.select :status, 
+                Work.statuses.keys.map { |s| [s.humanize, s] }, 
+                { include_blank: 'Selecione' }, 
+                { class: 'form-control' } %>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :work_type, 'Tipo', class: 'form-label' %>
+            <%= f.select :work_type, 
+                Work.work_types.keys.map { |t| [t.humanize, t] }, 
+                { include_blank: 'Selecione' }, 
+                { class: 'form-control' } %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :start_date, 'Data de Início', class: 'form-label' %>
+            <%= f.date_field :start_date, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :expected_end_date, 'Previsão de Término', class: 'form-label' %>
+            <%= f.date_field :expected_end_date, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :end_date, 'Data de Término', class: 'form-label' %>
+            <%= f.date_field :end_date, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <h5>Contatos da Obra</h5>
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Telefone</th>
+                  <th>Tipo</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= f.fields_for :contacts do |contact_form| %>
+                  <tr>
+                    <td><%= contact_form.text_field :name, class: 'form-control form-control-sm' %></td>
+                    <td><%= contact_form.email_field :email, class: 'form-control form-control-sm' %></td>
+                    <td><%= contact_form.text_field :phone, class: 'form-control form-control-sm' %></td>
+                    <td>
+                      <%= contact_form.select :contact_type, 
+                          Contact.contact_types.keys.map { |t| [t.humanize, t] }, 
+                          { include_blank: 'Selecione' }, 
+                          { class: 'form-control form-control-sm' } %>
+                    </td>
+                    <td>
+                      <%= contact_form.hidden_field :_destroy %>
+                      <button type="button" class="btn btn-sm btn-danger" data-action="remove-fields">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <button type="button" class="btn btn-info btn-sm" data-action="add-fields" data-association="contacts">
+            <i class="fas fa-plus"></i> Adicionar Contato
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <h5>Endereços da Obra</h5>
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Endereço</th>
+                  <th>Número</th>
+                  <th>Complemento</th>
+                  <th>Bairro</th>
+                  <th>Cidade</th>
+                  <th>Estado</th>
+                  <th>CEP</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= f.fields_for :addresses do |address_form| %>
+                  <tr>
+                    <td><%= address_form.text_field :street, class: 'form-control form-control-sm' %></td>
+                    <td><%= address_form.text_field :number, class: 'form-control form-control-sm' %></td>
+                    <td><%= address_form.text_field :complement, class: 'form-control form-control-sm' %></td>
+                    <td><%= address_form.text_field :neighborhood, class: 'form-control form-control-sm' %></td>
+                    <td><%= address_form.text_field :city, class: 'form-control form-control-sm' %></td>
+                    <td><%= address_form.text_field :state, class: 'form-control form-control-sm' %></td>
+                    <td><%= address_form.text_field :zip_code, class: 'form-control form-control-sm cep' %></td>
+                    <td>
+                      <%= address_form.hidden_field :_destroy %>
+                      <button type="button" class="btn btn-sm btn-danger" data-action="remove-fields">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <button type="button" class="btn btn-info btn-sm" data-action="add-fields" data-association="addresses">
+            <i class="fas fa-plus"></i> Adicionar Endereço
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <%= f.submit 'Salvar', class: 'btn btn-primary' %>
+      <%= link_to 'Cancelar', works_path, class: 'btn btn-secondary' %>
+    </div>
+  </div>
+
+  <template id="contacts_fields_template">
+    <tr>
+      <td><input type="text" name="work[contacts_attributes][__INDEX__][name]" class="form-control form-control-sm"></td>
+      <td><input type="email" name="work[contacts_attributes][__INDEX__][email]" class="form-control form-control-sm"></td>
+      <td><input type="text" name="work[contacts_attributes][__INDEX__][phone]" class="form-control form-control-sm"></td>
+      <td>
+        <select name="work[contacts_attributes][__INDEX__][contact_type]" class="form-control form-control-sm">
+          <% Contact.contact_types.keys.each do |type| %>
+            <option value="<%= type %>"><%= type.humanize %></option>
+          <% end %>
+        </select>
+      </td>
+      <td>
+        <input type="hidden" name="work[contacts_attributes][__INDEX__][_destroy]" value="false">
+        <button type="button" class="btn btn-sm btn-danger" data-action="remove-fields">
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </template>
+
+  <template id="addresses_fields_template">
+    <tr>
+      <td><input type="text" name="work[addresses_attributes][__INDEX__][street]" class="form-control form-control-sm"></td>
+      <td><input type="text" name="work[addresses_attributes][__INDEX__][number]" class="form-control form-control-sm"></td>
+      <td><input type="text" name="work[addresses_attributes][__INDEX__][complement]" class="form-control form-control-sm"></td>
+      <td><input type="text" name="work[addresses_attributes][__INDEX__][neighborhood]" class="form-control form-control-sm"></td>
+      <td><input type="text" name="work[addresses_attributes][__INDEX__][city]" class="form-control form-control-sm"></td>
+      <td><input type="text" name="work[addresses_attributes][__INDEX__][state]" class="form-control form-control-sm"></td>
+      <td><input type="text" name="work[addresses_attributes][__INDEX__][zip_code]" class="form-control form-control-sm cep"></td>
+      <td>
+        <input type="hidden" name="work[addresses_attributes][__INDEX__][_destroy]" value="false">
+        <button type="button" class="btn btn-sm btn-danger" data-action="remove-fields">
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </template>
+<% end %> 

@@ -3,9 +3,9 @@ class Service < ApplicationRecord
 
   # Relacionamentos
   belongs_to :tenant
-  belongs_to :service_category, optional: true
+  belongs_to :category, optional: true
   has_many :service_tax_rules, dependent: :destroy
-  has_many :service_order_services
+  has_many :service_order_services, dependent: :restrict_with_error
   has_many :service_orders, through: :service_order_services
   has_many :tax_rules, as: :taxable, dependent: :destroy
   has_many :observations, as: :observable, dependent: :destroy
@@ -16,23 +16,34 @@ class Service < ApplicationRecord
   accepts_nested_attributes_for :observations, allow_destroy: true
 
   # Enums
-  enum status: { inactive: 0, active: 1 }
-  enum service_type: { labor: 0, material: 1, equipment: 2, other: 3 }
+  enum status: {
+    active: 0,
+    inactive: 1
+  }
+
+  enum service_type: {
+    labor: 0,
+    material: 1,
+    equipment: 2,
+    other: 3
+  }
 
   # Validações
   validates :code, presence: true, uniqueness: { scope: :tenant_id }
   validates :name, presence: true
+  validates :status, presence: true
   validates :unit, presence: true
-  validates :price, numericality: { greater_than_or_equal_to: 0 }
+  validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :nfs_description, presence: true
 
   # Callbacks
   before_validation :generate_code, on: :create
+  before_validation :set_defaults
 
   # Scopes
   scope :active, -> { where(status: :active) }
   scope :inactive, -> { where(status: :inactive) }
-  scope :by_category, ->(category_id) { where(service_category_id: category_id) }
+  scope :by_category, ->(category_id) { where(category_id: category_id) }
 
   # Métodos
   def tax_rule_for(city_code)
@@ -57,7 +68,7 @@ class Service < ApplicationRecord
   def generate_code
     return if code.present?
     
-    category_prefix = service_category&.code || 'SV'
+    category_prefix = category&.code || 'SV'
     last_code = tenant.services
                      .where("code LIKE ?", "#{category_prefix}%")
                      .order(code: :desc)
@@ -70,5 +81,10 @@ class Service < ApplicationRecord
                end
     
     self.code = "#{category_prefix}#{sequence.to_s.rjust(6, '0')}"
+  end
+
+  def set_defaults
+    self.status ||= :active
+    self.service_type ||= :other
   end
 end

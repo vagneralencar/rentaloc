@@ -1,0 +1,76 @@
+pt-BR:
+  activerecord:
+    models:
+      address: Endereço
+      addresses: Endereços
+      work: Obra
+      works: Obras
+    attributes:
+      address:
+        street: Rua
+        number: Número
+        complement: Complemento
+        neighborhood: Bairro
+        city: Cidade
+        state: Estado
+        zip_code: CEP
+        address_type: Tipo de Endereço
+        notes: Observações
+        active: Ativo
+      work:
+        name: Nome
+        code: Código
+        description: Descrição
+        status: Status
+        work_type: Tipo
+        start_date: Data de Início
+        expected_end_date: Previsão de Término
+        end_date: Data de Término
+        person_id: Cliente
+    errors:
+      models:
+        address:
+          attributes:
+            zip_code:
+              blank: "não pode ficar em branco"
+              invalid: "não é válido"
+            street:
+              blank: "não pode ficar em branco"
+            number:
+              blank: "não pode ficar em branco"
+            city:
+              blank: "não pode ficar em branco"
+            state:
+              blank: "não pode ficar em branco"
+        work:
+          attributes:
+            name:
+              blank: "não pode ficar em branco"
+            code:
+              blank: "não pode ficar em branco"
+            person_id:
+              blank: "não pode ficar em branco"
+            start_date:
+              blank: "não pode ficar em branco"
+            expected_end_date:
+              blank: "não pode ficar em branco"
+            end_date:
+              blank: "não pode ficar em branco"
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d/%m"
+      long: "%d de %B de %Y"
+    day_names: [Domingo, Segunda, Terça, Quarta, Quinta, Sexta, Sábado]
+    abbr_day_names: [Dom, Seg, Ter, Qua, Qui, Sex, Sáb]
+    month_names: [~, Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro]
+    abbr_month_names: [~, Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez]
+    order:
+      - :day
+      - :month
+      - :year
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      short: "%d/%m %H:%M"
+      long: "%d de %B de %Y às %H:%M" 

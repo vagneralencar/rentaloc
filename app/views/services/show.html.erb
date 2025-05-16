@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Detalhes do Serviço</h3>
+          <div class="card-tools">
+            <%= link_to edit_service_path(@service), class: 'btn btn-primary btn-sm' do %>
+              <i class="fas fa-edit"></i> Editar
+            <% end %>
+            <%= link_to services_path, class: 'btn btn-secondary btn-sm' do %>
+              <i class="fas fa-arrow-left"></i> Voltar
+            <% end %>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <dl class="row">
+                <dt class="col-sm-4">Código</dt>
+                <dd class="col-sm-8"><%= @service.code %></dd>
+
+                <dt class="col-sm-4">Nome</dt>
+                <dd class="col-sm-8"><%= @service.name %></dd>
+
+                <dt class="col-sm-4">Categoria</dt>
+                <dd class="col-sm-8"><%= @service.category&.name %></dd>
+
+                <dt class="col-sm-4">Tipo</dt>
+                <dd class="col-sm-8"><%= t("enums.service.service_type.#{@service.service_type}") %></dd>
+
+                <dt class="col-sm-4">Status</dt>
+                <dd class="col-sm-8">
+                  <span class="badge badge-<%= @service.active? ? 'success' : 'danger' %>">
+                    <%= t("enums.service.status.#{@service.status}") %>
+                  </span>
+                </dd>
+              </dl>
+            </div>
+            <div class="col-md-6">
+              <dl class="row">
+                <dt class="col-sm-4">Unidade</dt>
+                <dd class="col-sm-8"><%= @service.unit %></dd>
+
+                <dt class="col-sm-4">Preço</dt>
+                <dd class="col-sm-8">R$ <%= number_with_precision(@service.price, precision: 2) %></dd>
+
+                <dt class="col-sm-4">Descrição</dt>
+                <dd class="col-sm-8"><%= @service.description %></dd>
+
+                <dt class="col-sm-4">Descrição NFS</dt>
+                <dd class="col-sm-8"><%= @service.nfs_description %></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">
+            Criado em <%= l(@service.created_at, format: :long) %>
+            <% if @service.updated_at != @service.created_at %>
+              | Atualizado em <%= l(@service.updated_at, format: :long) %>
+            <% end %>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

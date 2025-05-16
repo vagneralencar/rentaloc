@@ -3,7 +3,7 @@ class Work < ApplicationRecord
 
   # Relacionamentos
   belongs_to :tenant
-  belongs_to :person
+  belongs_to :person, foreign_key: 'person_id'
   has_many :addresses, as: :addressable, dependent: :destroy
   has_many :contacts, as: :contactable, dependent: :destroy
   has_many :observations, as: :observable, dependent: :destroy
@@ -23,6 +23,7 @@ class Work < ApplicationRecord
   # Validações
   validates :name, presence: true
   validates :code, presence: true, uniqueness: { scope: :tenant_id }
+  validates :person_id, presence: true
   validates :start_date, presence: true
   validates :expected_end_date, presence: true
   validate :end_date_after_start_date

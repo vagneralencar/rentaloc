@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Editar Serviço</h3>
+        </div>
+        <div class="card-body">
+          <%= render 'tabs', service: @service %>
+
+          <%= form_with(model: @service, local: true) do |f| %>
+            <% case params[:aba] %>
+            <% when 'fiscal' %>
+              <%= render 'fiscal', f: f, service: @service %>
+            <% else %>
+              <%= render 'form', f: f, service: @service %>
+            <% end %>
+            <div class="mt-3">
+              <%= f.submit 'Salvar', class: 'btn btn-primary' %>
+              <%= link_to 'Voltar', services_path, class: 'btn btn-secondary' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

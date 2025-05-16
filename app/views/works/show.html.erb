@@ -1,0 +1,145 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Detalhes da Obra</h1>
+      </div>
+      <div class="col-sm-6">
+        <div class="float-sm-right">
+          <%= link_to edit_work_path(@work), class: 'btn btn-primary' do %>
+            <i class="fas fa-edit"></i> Editar
+          <% end %>
+          <%= link_to works_path, class: 'btn btn-secondary' do %>
+            <i class="fas fa-arrow-left"></i> Voltar
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Informações Gerais</h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <dl class="row">
+                  <dt class="col-sm-4">Código:</dt>
+                  <dd class="col-sm-8"><%= @work.code %></dd>
+
+                  <dt class="col-sm-4">Nome:</dt>
+                  <dd class="col-sm-8"><%= @work.name %></dd>
+
+                  <dt class="col-sm-4">Cliente:</dt>
+                  <dd class="col-sm-8"><%= @work.person&.name %></dd>
+
+                  <dt class="col-sm-4">Status:</dt>
+                  <dd class="col-sm-8"><%= @work.status.humanize %></dd>
+
+                  <dt class="col-sm-4">Tipo:</dt>
+                  <dd class="col-sm-8"><%= @work.work_type.humanize %></dd>
+                </dl>
+              </div>
+
+              <div class="col-md-6">
+                <dl class="row">
+                  <dt class="col-sm-4">Data de Início:</dt>
+                  <dd class="col-sm-8"><%= l(@work.start_date, format: :short) if @work.start_date %></dd>
+
+                  <dt class="col-sm-4">Previsão de Término:</dt>
+                  <dd class="col-sm-8"><%= l(@work.expected_end_date, format: :short) if @work.expected_end_date %></dd>
+
+                  <dt class="col-sm-4">Data de Término:</dt>
+                  <dd class="col-sm-8"><%= l(@work.end_date, format: :short) if @work.end_date %></dd>
+                </dl>
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <div class="col-md-12">
+                <h4>Descrição</h4>
+                <p><%= @work.description %></p>
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <div class="col-md-12">
+                <h4>Informações de Contato</h4>
+                <% if @work.contacts.any? %>
+                  <div class="table-responsive">
+                    <table class="table table-sm">
+                      <thead>
+                        <tr>
+                          <th>Nome</th>
+                          <th>Email</th>
+                          <th>Telefone</th>
+                          <th>Tipo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @work.contacts.each do |contact| %>
+                          <tr>
+                            <td><%= contact.name %></td>
+                            <td><%= contact.email %></td>
+                            <td><%= contact.phone %></td>
+                            <td><%= contact.contact_type.humanize %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                <% else %>
+                  <p class="text-muted">Nenhum contato cadastrado.</p>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <div class="col-md-12">
+                <h4>Endereços</h4>
+                <% if @work.addresses.any? %>
+                  <div class="table-responsive">
+                    <table class="table table-sm">
+                      <thead>
+                        <tr>
+                          <th>Rua</th>
+                          <th>Número</th>
+                          <th>Complemento</th>
+                          <th>Bairro</th>
+                          <th>Cidade</th>
+                          <th>Estado</th>
+                          <th>CEP</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @work.addresses.each do |address| %>
+                          <tr>
+                            <td><%= address.street %></td>
+                            <td><%= address.number %></td>
+                            <td><%= address.complement %></td>
+                            <td><%= address.neighborhood %></td>
+                            <td><%= address.city %></td>
+                            <td><%= address.state %></td>
+                            <td><%= address.zip_code %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                <% else %>
+                  <p class="text-muted">Nenhum endereço cadastrado.</p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

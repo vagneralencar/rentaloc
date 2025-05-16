@@ -1,0 +1,27 @@
+pt-BR:
+  activerecord:
+    models:
+      service:
+        one: Serviço
+        other: Serviços
+    attributes:
+      service:
+        code: Código
+        name: Nome
+        description: Descrição
+        status: Status
+        unit: Unidade
+        price: Preço
+        nfs_description: Descrição para NFS
+        category_id: Categoria
+        service_type: Tipo
+    enums:
+      service:
+        status:
+          active: Ativo
+          inactive: Inativo
+        service_type:
+          labor: Mão de obra
+          material: Material
+          equipment: Equipamento
+          other: Outro 

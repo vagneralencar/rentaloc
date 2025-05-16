@@ -8,7 +8,8 @@ import * as bootstrap from "bootstrap"
 import "admin-lte"
 
 // Select2
-// import "select2"
+import "select2"
+import "select2/dist/css/select2.min.css"
 
 // Máscaras de input
 import "jquery-mask-plugin"
@@ -24,10 +25,12 @@ document.addEventListener("turbo:load", function() {
   })
 
   // Inicializa select2
-  $('select').select2({
-    theme: 'bootstrap4',
-    width: '100%'
-  })
+  if (typeof $.fn.select2 !== 'undefined') {
+    $('.select2').select2({
+      theme: 'bootstrap4',
+      width: '100%'
+    })
+  }
 
   // Inicializa máscaras
   $('.date').mask('00/00/0000')

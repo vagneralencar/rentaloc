@@ -43,10 +43,10 @@ class Person < ApplicationRecord
   
   # Scopes
   scope :active, -> { where(status: :active) }
-  scope :customers, -> { where('roles @> ?', '{customer}') }
-  scope :suppliers, -> { where('roles @> ?', '{supplier}') }
-  scope :carriers, -> { where('roles @> ?', '{carrier}') }
-  scope :employees, -> { where('roles @> ?', '{employee}') }
+  scope :customers, -> { where(role: :customer) }
+  scope :suppliers, -> { where(role: :supplier) }
+  scope :carriers, -> { where(role: :carrier) }
+  scope :employees, -> { where(role: :employee) }
   
   # Escopos para facilitar consultas por tipo de pessoa
   scope :clientes, -> { where(role: :customer) }

@@ -7,6 +7,7 @@ class Tenant < ApplicationRecord
   has_many :services, dependent: :destroy
   has_many :financial_natures, dependent: :destroy
   has_many :cost_centers, dependent: :destroy
+  has_many :categories, dependent: :destroy
   
   # Anexos
   has_one_attached :logo

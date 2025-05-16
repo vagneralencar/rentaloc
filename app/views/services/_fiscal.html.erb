@@ -1,0 +1,77 @@
+<div class="alert alert-light border mb-3">
+  Nos campos abaixo, selecione a regra de tributação ou preencha os campos de tributação. Se a regra de tributação for selecionada e algum campo for preenchido, os campos preenchidos nessa tela terão precedência.
+</div>
+
+<div class="row mb-3">
+  <div class="col-md-4">
+    <div class="form-group">
+      <label>Regra de Tributação</label>
+      <!-- <%= f.collection_select :tax_rule_id, TaxRule.all, :id, :name, { include_blank: 'Selecione' }, class: 'form-control' %> -->
+      <select class="form-control"><option>Selecione</option></select>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="form-group">
+      <label>Sobre Retenção IR</label>
+      <select class="form-control"><option>Sim</option><option>Não</option></select>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="form-group">
+      <label>Gerar Contas a Receber</label>
+      <select class="form-control"><option>Sim</option><option>Não</option></select>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-5">
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr><th colspan="2">ISS</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Exigibilidade ISS</td><td>Não informado</td></tr>
+        <tr><td>Tributação ISS</td><td>Não informado</td></tr>
+        <tr><td>Alíquota ISS (%)</td><td><input class="form-control" type="text" /></td></tr>
+        <tr><td>Código CNAE</td><td><input class="form-control" type="text" /></td></tr>
+        <tr><td>Cód Serviço 116</td><td><input class="form-control" type="text" /></td></tr>
+        <tr><td>Cód Trib Município</td><td><input class="form-control" type="text" /></td></tr>
+        <tr><td>Núm Proc. Susp ISS</td><td><input class="form-control" type="text" /></td></tr>
+        <tr><td>Base ISS (%)</td><td><input class="form-control" type="text" value="100,00" /></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-4">
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr><th colspan="2">Outros Impostos</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>CST PIS/COFINS</td><td><select class="form-control"><option>Selecione</option></select></td></tr>
+        <tr><td>Alíquota PIS (%)</td><td><input class="form-control" type="text" /></td></tr>
+        <tr><td>Alíquota COFINS (%)</td><td><input class="form-control" type="text" /></td></tr>
+        <tr><td>Alíquota CSLL (%)</td><td><input class="form-control" type="text" /></td></tr>
+        <tr><td>Alíquota IR (%)</td><td><input class="form-control" type="text" /></td></tr>
+        <tr><td>Alíquota Retenção IR (%)</td><td><input class="form-control" type="text" /></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-3">
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr><th colspan="2">Lei da Transparência</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Tributos Federais (%)</td><td><input class="form-control" type="text" /></td></tr>
+        <tr><td>Tributos Estaduais (%)</td><td><input class="form-control" type="text" /></td></tr>
+        <tr><td>Tributos Municipais (%)</td><td><input class="form-control" type="text" /></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card-footer text-end">
+  <%= f.submit 'Salvar', class: 'btn btn-primary btn-sm' %>
+  <%= link_to 'Voltar', services_path, class: 'btn btn-secondary btn-sm' %>
+</div> 

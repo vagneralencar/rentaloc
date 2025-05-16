@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Novo Serviço</h3>
+        </div>
+        <div class="card-body">
+          <ul class="nav nav-tabs custom-tabs mb-3">
+            <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-info-circle"></i> Dados Gerais</a></li>
+            <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-bank"></i> Fiscal</a></li>
+          </ul>
+          <%= render 'form', service: @service %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

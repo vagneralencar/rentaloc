@@ -33,8 +33,6 @@ Rails.application.routes.draw do
     end
   end
 
-
-
   # Locações
   resources :rentals do
     member do
@@ -123,7 +121,9 @@ Rails.application.routes.draw do
   resources :carriers
   resources :employees
   resources :works
-  resources :services
+  resources :services do
+    resources :service_tax_rules, only: [:index, :new, :create, :edit, :update, :destroy]
+  end
   resources :financial_natures
   resources :cost_centers
   resources :rentals

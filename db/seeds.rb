@@ -195,6 +195,9 @@ carriers = [
   )
 end
 
+# Load service categories
+load(Rails.root.join('db', 'seeds', 'service_categories.rb'))
+
 puts 'Seeds criados com sucesso!'
 puts 'Credenciais do administrador:'
 puts 'Email: admin@gestaoloc.com.br'

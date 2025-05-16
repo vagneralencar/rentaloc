@@ -1384,7 +1384,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_15_221110) do
 
   create_table "works", force: :cascade do |t|
     t.integer "tenant_id", null: false
-    t.integer "customer_id", null: false
     t.string "code", null: false
     t.string "name", null: false
     t.text "description"
@@ -1396,7 +1395,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_15_221110) do
     t.datetime "updated_at", null: false
     t.integer "work_type"
     t.integer "person_id"
-    t.index ["customer_id"], name: "index_works_on_customer_id"
     t.index ["end_date"], name: "index_works_on_end_date"
     t.index ["expected_end_date"], name: "index_works_on_expected_end_date"
     t.index ["start_date"], name: "index_works_on_start_date"
@@ -1571,6 +1569,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_15_221110) do
   add_foreign_key "tenant_onboarding_statuses", "tenants"
   add_foreign_key "tenant_onboarding_steps", "tenants"
   add_foreign_key "users", "tenants"
-  add_foreign_key "works", "people", column: "customer_id"
   add_foreign_key "works", "tenants"
 end

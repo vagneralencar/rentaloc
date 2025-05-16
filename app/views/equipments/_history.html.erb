@@ -1,0 +1,31 @@
+<div class="card mb-3">
+  <div class="card-header">
+    <h5 class="card-title mb-0">Histórico</h5>
+  </div>
+  <div class="card-body">
+    <% if @equipment_maintenance_histories.present? %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Usuário</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @equipment_maintenance_histories.each do |history| %>
+            <tr>
+              <td><%= l(history.maintenance_date, format: :short) if history.maintenance_date %></td>
+              <td><%= history.history_type %></td>
+              <td><%= history.description %></td>
+              <td><%= history.performed_by&.name %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="text-muted">Nenhum histórico registrado</p>
+    <% end %>
+  </div>
+</div> 

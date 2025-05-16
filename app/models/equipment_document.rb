@@ -4,29 +4,31 @@ class EquipmentDocument < ApplicationRecord
   # Validações
   validates :equipment, presence: true
   validates :document, presence: true
+  validates :description, presence: true
   
   # Relacionamentos
   belongs_to :tenant
   belongs_to :equipment
+  belongs_to :user, optional: true
   
   # Upload de arquivo
-  has_one_attached :document
+  has_one_attached :file
   
   # Enums
   enum document_type: {
-    manual: 0,
-    warranty: 1,
-    invoice: 2,
-    certification: 3,
-    other: 4
+    manual: 'manual',
+    nota_fiscal: 'nota_fiscal',
+    garantia: 'garantia',
+    certificado: 'certificado',
+    outro: 'outro'
   }
   
   # Callbacks
-  before_validation :set_default_document_type, on: :create
+  before_validation :set_user, on: :create
   
   private
   
-  def set_default_document_type
-    self.document_type ||= :other
+  def set_user
+    self.user = Current.user if Current.user
   end
 end 

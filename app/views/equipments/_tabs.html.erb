@@ -1,20 +1,43 @@
-<ul class="nav nav-tabs mb-3">
-  <li class="nav-item">
-    <%= link_to 'Principal', edit_equipment_path(@equipment), class: "nav-link #{'active' if params[:aba].blank? || params[:aba] == 'principal'}" %>
+<% if equipment&.persisted? %>
+<ul class="nav nav-tabs custom-tabs mb-3" role="tablist">
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_equipment_path(equipment), class: "nav-link #{'active' if params[:aba].blank? || params[:aba] == 'dados'}", role: "tab" do %>
+      <i class="bi bi-tools"></i> Dados Gerais
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Acessórios', edit_equipment_path(@equipment, aba: 'acessorios'), class: "nav-link #{'active' if params[:aba] == 'acessorios'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_equipment_path(equipment, aba: 'tecnicos'), class: "nav-link #{'active' if params[:aba] == 'tecnicos'}", role: "tab" do %>
+      <i class="bi bi-gear"></i> Dados Técnicos
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Estoque', edit_equipment_path(@equipment, aba: 'estoque'), class: "nav-link #{'active' if params[:aba] == 'estoque'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_equipment_path(equipment, aba: 'financeiros'), class: "nav-link #{'active' if params[:aba] == 'financeiros'}", role: "tab" do %>
+      <i class="bi bi-cash"></i> Dados Financeiros
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Tabela de Locação', edit_equipment_path(@equipment, aba: 'tabela_locacao'), class: "nav-link #{'active' if params[:aba] == 'tabela_locacao'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_equipment_path(equipment, aba: 'locacao'), class: "nav-link #{'active' if params[:aba] == 'locacao'}", role: "tab" do %>
+      <i class="bi bi-calendar-check"></i> Preços de Locação
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Informações Fiscais', edit_equipment_path(@equipment, aba: 'informacoes_fiscais'), class: "nav-link #{'active' if params[:aba] == 'informacoes_fiscais'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_equipment_path(equipment, aba: 'documentos'), class: "nav-link #{'active' if params[:aba] == 'documentos'}", role: "tab" do %>
+      <i class="bi bi-paperclip"></i> Documentos
+    <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to 'Fotos', edit_equipment_path(@equipment, aba: 'fotos'), class: "nav-link #{'active' if params[:aba] == 'fotos'}" %>
+  <li class="nav-item" role="presentation">
+    <%= link_to edit_equipment_path(equipment, aba: 'manutencao'), class: "nav-link #{'active' if params[:aba] == 'manutencao'}", role: "tab" do %>
+      <i class="bi bi-wrench"></i> Manutenção
+    <% end %>
   </li>
 </ul>
+<% else %>
+<ul class="nav nav-tabs custom-tabs mb-3">
+  <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-tools"></i> Dados Gerais</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-gear"></i> Dados Técnicos</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-cash"></i> Dados Financeiros</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-calendar-check"></i> Preços de Locação</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-paperclip"></i> Documentos</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#"><i class="bi bi-wrench"></i> Manutenção</a></li>
+</ul>
+<% end %>

@@ -1,0 +1,38 @@
+<div class="card mb-3">
+  <div class="card-header">
+    <h5 class="card-title mb-0">Agenda</h5>
+  </div>
+  <div class="card-body">
+    <% if @equipment_maintenance_schedules.present? %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Data Início</th>
+            <th>Data Fim</th>
+            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @equipment_maintenance_schedules.each do |schedule| %>
+            <tr>
+              <td><%= l(schedule.start_date, format: :short) if schedule.start_date %></td>
+              <td><%= l(schedule.end_date, format: :short) if schedule.end_date %></td>
+              <td><%= schedule.schedule_type %></td>
+              <td><%= schedule.description %></td>
+              <td><%= schedule.status %></td>
+              <td>
+                <%= link_to 'Editar', edit_equipment_schedule_path(@equipment, schedule), class: 'btn btn-primary btn-sm' %>
+                <%= link_to 'Excluir', equipment_schedule_path(@equipment, schedule), method: :delete, data: { confirm: 'Tem certeza?' }, class: 'btn btn-danger btn-sm ml-2' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="text-muted">Nenhum agendamento cadastrado</p>
+    <% end %>
+  </div>
+</div> 

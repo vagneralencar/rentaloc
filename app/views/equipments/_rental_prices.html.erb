@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">Preços de Locação</h4>
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <%= f.label :rental_prices, 'Preços por Período' %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.label :rental_prices_daily, 'Diária' %>
+          <%= f.number_field :rental_prices_daily, value: (equipment.rental_prices || {}).fetch(:daily, nil), class: 'form-control money', step: '0.01' %>
+        </div>
+        <div class="col-md-6">
+          <%= f.label :rental_prices_weekly, 'Semanal' %>
+          <%= f.number_field :rental_prices_weekly, value: (equipment.rental_prices || {}).fetch(:weekly, nil), class: 'form-control money', step: '0.01' %>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-6">
+          <%= f.label :rental_prices_monthly, 'Mensal' %>
+          <%= f.number_field :rental_prices_monthly, value: (equipment.rental_prices || {}).fetch(:monthly, nil), class: 'form-control money', step: '0.01' %>
+        </div>
+        <div class="col-md-6">
+          <%= f.label :rental_prices_quarterly, 'Trimestral' %>
+          <%= f.number_field :rental_prices_quarterly, value: (equipment.rental_prices || {}).fetch(:quarterly, nil), class: 'form-control money', step: '0.01' %>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-6">
+          <%= f.label :rental_prices_semester, 'Semestral' %>
+          <%= f.number_field :rental_prices_semester, value: (equipment.rental_prices || {}).fetch(:semester, nil), class: 'form-control money', step: '0.01' %>
+        </div>
+        <div class="col-md-6">
+          <%= f.label :rental_prices_yearly, 'Anual' %>
+          <%= f.number_field :rental_prices_yearly, value: (equipment.rental_prices || {}).fetch(:yearly, nil), class: 'form-control money', step: '0.01' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

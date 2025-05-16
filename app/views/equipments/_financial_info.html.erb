@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">Informações Financeiras</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :depreciation_rate, 'Taxa de Depreciação (%)' %>
+          <%= f.number_field :depreciation_rate, class: 'form-control', step: '0.01' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :last_purchase_price, 'Último Preço de Compra' %>
+          <%= f.number_field :last_purchase_price, class: 'form-control money', step: '0.01' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :last_purchase_date, 'Data da Última Compra' %>
+          <%= f.date_field :last_purchase_date, class: 'form-control date' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :sale_price, 'Preço de Venda' %>
+          <%= f.number_field :sale_price, class: 'form-control money', step: '0.01' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :indemnity_value, 'Valor de Indenização' %>
+          <%= f.number_field :indemnity_value, class: 'form-control money', step: '0.01' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

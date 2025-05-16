@@ -10,6 +10,7 @@ class EquipmentAccessory < ApplicationRecord
   belongs_to :tenant
   belongs_to :equipment
   belongs_to :accessory, class_name: 'Equipment'
+  belongs_to :user, optional: true
   
   # Enums
   enum status: {
@@ -21,10 +22,15 @@ class EquipmentAccessory < ApplicationRecord
   
   # Callbacks
   before_validation :set_default_status, on: :create
+  before_validation :set_user, on: :create
   
   private
   
   def set_default_status
     self.status ||= :active
+  end
+
+  def set_user
+    self.user = Current.user if Current.user
   end
 end 

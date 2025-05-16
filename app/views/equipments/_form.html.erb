@@ -1,7 +1,7 @@
-<%= form_with(model: equipment, url: equipment.new_record? ? equipments_path : equipment_path(equipment), local: true) do |f| %>
+<%= form_with(model: equipment, local: true) do |f| %>
   <% if equipment.errors.any? %>
     <div class="alert alert-danger">
-      <h4><%= pluralize(equipment.errors.count, "erro") %> impediram este equipamento de ser salvo:</h4>
+      <h4><%= pluralize(equipment.errors.count, 'erro') %> impediram este equipamento de ser salvo:</h4>
       <ul>
         <% equipment.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -10,49 +10,45 @@
     </div>
   <% end %>
 
-  <div class="card mb-3">
-    <div class="card-header"><b>Dados do Equipamento</b></div>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Informações Básicas</h4>
+    </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-3">
-          <%= f.label :code, 'Código', class: 'form-label-sm' %>
-          <%= f.text_field :code, class: 'form-control form-control-sm' %>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label :category_id, 'Categoria' %>
+            <%= f.collection_select :category_id, @categories, :id, :name, { include_blank: 'Selecione uma categoria' }, { class: 'form-control' } %>
+          </div>
+          <div class="form-group">
+            <%= f.label :code, 'Código' %>
+            <%= f.text_field :code, class: 'form-control', required: true %>
+          </div>
+          <div class="form-group">
+            <%= f.label :name, 'Nome' %>
+            <%= f.text_field :name, class: 'form-control', required: true %>
+          </div>
+          <div class="form-group">
+            <%= f.label :description, 'Descrição' %>
+            <%= f.text_area :description, class: 'form-control', rows: 3 %>
+          </div>
         </div>
-        <div class="col-md-5">
-          <%= f.label :name, 'Nome/Descrição', class: 'form-label-sm' %>
-          <%= f.text_field :name, class: 'form-control form-control-sm' %>
-        </div>
-        <div class="col-md-2">
-          <%= f.label :group, 'Grupo', class: 'form-label-sm' %>
-          <%= f.text_field :group, class: 'form-control form-control-sm' %>
-        </div>
-        <div class="col-md-2">
-          <%= f.label :status, 'Status', class: 'form-label-sm' %>
-          <%= f.select :status, Equipment.statuses.keys.map { |k| [k.humanize, k] }, {prompt: 'Selecione'}, class: 'form-control form-control-sm' %>
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col-md-3">
-          <%= f.label :sale_value, 'Valor Venda', class: 'form-label-sm' %>
-          <%= f.number_field :sale_value, class: 'form-control form-control-sm', step: 0.01 %>
-        </div>
-        <div class="col-md-3">
-          <%= f.label :purchase_value, 'Valor Última Compra', class: 'form-label-sm' %>
-          <%= f.number_field :purchase_value, class: 'form-control form-control-sm', step: 0.01 %>
-        </div>
-        <div class="col-md-3">
-          <%= f.label :depreciation, 'Depreciação (%)', class: 'form-label-sm' %>
-          <%= f.number_field :depreciation, class: 'form-control form-control-sm', step: 0.01 %>
-        </div>
-        <div class="col-md-3">
-          <%= f.label :weight, 'Peso (kg)', class: 'form-label-sm' %>
-          <%= f.number_field :weight, class: 'form-control form-control-sm', step: 0.01 %>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label :status, 'Status' %>
+            <%= f.select :status, Equipment.statuses.keys.map { |key| [key.humanize, key] }, {}, { class: 'form-control' } %>
+          </div>
+          <div class="form-group">
+            <%= f.label :control_type, 'Tipo de Controle' %>
+            <%= f.select :control_type, Equipment.control_types.keys.map { |key| [key.humanize, key] }, {}, { class: 'form-control' } %>
+          </div>
+          <div class="form-group">
+            <%= f.label :unit, 'Unidade' %>
+            <%= f.text_field :unit, class: 'form-control' %>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="card-footer text-end">
-      <%= f.submit 'Salvar', class: 'btn btn-primary btn-sm' %>
-      <%= link_to 'Voltar', equipments_path, class: 'btn btn-secondary btn-sm' %>
     </div>
   </div>
 <% end %>

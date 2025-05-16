@@ -14,3 +14,10 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym "RESTful"
 # end
+# config/initializers/inflections.rb no repositório
+
+
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.uncountable.delete('equipment') # Remove "equipment" da lista de incontáveis, se existir
+  inflect.irregular 'equipment', 'equipments' # Define as regras específicas para "equipment"
+end

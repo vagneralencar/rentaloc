@@ -22,12 +22,18 @@ Rails.application.routes.draw do
   resources :equipments do
     resources :maintenance_reports
     resources :equipment_images, only: [:create, :destroy]
+    resources :documents, only: [:new, :create, :destroy]
+    resources :photos, only: [:new, :create, :destroy]
+    resources :accessories, except: [:index, :show]
+    resources :maintenances, except: [:index, :show]
+    resources :schedules, except: [:index, :show]
+    resources :alerts, except: [:index, :show]
     collection do
       get :available
     end
   end
 
-  get '/equipment', to: redirect('/equipments')
+
 
   # Locações
   resources :rentals do

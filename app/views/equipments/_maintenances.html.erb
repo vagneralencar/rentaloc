@@ -1,0 +1,39 @@
+<div class="card mb-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h5 class="card-title mb-0">Manutenções</h5>
+    <%= link_to 'Nova Manutenção', new_equipment_maintenance_path(@equipment), class: 'btn btn-primary btn-sm' %>
+  </div>
+  <div class="card-body">
+    <% if @equipment_maintenances.present? %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Custo</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @equipment_maintenances.each do |maintenance| %>
+            <tr>
+              <td><%= l(maintenance.start_date, format: :short) %></td>
+              <td><%= maintenance.maintenance_type %></td>
+              <td><%= maintenance.description %></td>
+              <td><%= number_to_currency(maintenance.cost) if maintenance.cost %></td>
+              <td><%= maintenance.status %></td>
+              <td>
+                <%= link_to 'Editar', edit_equipment_maintenance_path(@equipment, maintenance), class: 'btn btn-primary btn-sm' %>
+                <%= link_to 'Excluir', equipment_maintenance_path(@equipment, maintenance), method: :delete, data: { confirm: 'Tem certeza?' }, class: 'btn btn-danger btn-sm ml-2' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="text-muted">Nenhuma manutenção cadastrada</p>
+    <% end %>
+  </div>
+</div> 

@@ -1,0 +1,119 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="card-title"><%= @equipment.name %></h4>
+        <div class="btn-group">
+          <%= link_to 'Editar', edit_equipment_path(@equipment), class: 'btn btn-primary' %>
+          <%= link_to 'Voltar', equipments_path, class: 'btn btn-secondary' %>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Informações Básicas</h5>
+            <table class="table table-bordered">
+              <tr><th>Código</th><td><%= @equipment.code %></td></tr>
+              <tr><th>Categoria</th><td><%= @equipment.category&.name %></td></tr>
+              <tr><th>Status</th><td><%= Equipment.human_attribute_name("status." + @equipment.status) %></td></tr>
+              <tr><th>Tipo de Controle</th><td><%= Equipment.human_attribute_name("control_type." + @equipment.control_type) %></td></tr>
+              <tr><th>Unidade</th><td><%= @equipment.unit %></td></tr>
+              <tr><th>Descrição</th><td><%= @equipment.description %></td></tr>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <h5>Informações Técnicas</h5>
+            <table class="table table-bordered">
+              <tr><th>Marca</th><td><%= @equipment.brand %></td></tr>
+              <tr><th>Modelo</th><td><%= @equipment.model %></td></tr>
+              <tr><th>Número de Série</th><td><%= @equipment.serial_number %></td></tr>
+              <tr><th>Peso</th><td><%= @equipment.weight.present? ? "#{@equipment.weight} kg" : '' %></td></tr>
+              <tr><th>Origem</th><td><%= @equipment.origin.present? ? Equipment.human_attribute_name("origin." + @equipment.origin) : '' %></td></tr>
+              <tr><th>NCM</th><td><%= @equipment.ncm %></td></tr>
+              <tr><th>CEST</th><td><%= @equipment.cest %></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <h5>Informações Financeiras</h5>
+            <table class="table table-bordered">
+              <tr><th>Taxa de Depreciação</th><td><%= @equipment.depreciation_rate.present? ? "#{@equipment.depreciation_rate}%" : '' %></td></tr>
+              <tr><th>Último Preço de Compra</th><td><%= @equipment.last_purchase_price.present? ? number_to_currency(@equipment.last_purchase_price) : '' %></td></tr>
+              <tr><th>Data da Última Compra</th><td><%= @equipment.last_purchase_date.present? ? l(@equipment.last_purchase_date, format: :long) : '' %></td></tr>
+              <tr><th>Preço de Venda</th><td><%= @equipment.sale_price.present? ? number_to_currency(@equipment.sale_price) : '' %></td></tr>
+              <tr><th>Valor de Indenização</th><td><%= @equipment.indemnity_value.present? ? number_to_currency(@equipment.indemnity_value) : '' %></td></tr>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <h5>Preços de Locação</h5>
+            <table class="table table-bordered">
+              <tr><th>Diária</th><td><%= number_to_currency(@equipment.rental_prices[:daily]) if @equipment.rental_prices&.dig(:daily) %></td></tr>
+              <tr><th>Semanal</th><td><%= number_to_currency(@equipment.rental_prices[:weekly]) if @equipment.rental_prices&.dig(:weekly) %></td></tr>
+              <tr><th>Mensal</th><td><%= number_to_currency(@equipment.rental_prices[:monthly]) if @equipment.rental_prices&.dig(:monthly) %></td></tr>
+              <tr><th>Trimestral</th><td><%= number_to_currency(@equipment.rental_prices[:quarterly]) if @equipment.rental_prices&.dig(:quarterly) %></td></tr>
+              <tr><th>Semestral</th><td><%= number_to_currency(@equipment.rental_prices[:semester]) if @equipment.rental_prices&.dig(:semester) %></td></tr>
+              <tr><th>Anual</th><td><%= number_to_currency(@equipment.rental_prices[:yearly]) if @equipment.rental_prices&.dig(:yearly) %></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-12">
+            <h5>Documentação</h5>
+            <% if @equipment.documentation_url.present? %>
+              <%= link_to @equipment.documentation_url, @equipment.documentation_url, target: '_blank' %>
+            <% else %>
+              <p class="text-muted">Nenhuma documentação cadastrada</p>
+            <% end %>
+          </div>
+        </div>
+        <ul class="nav nav-tabs mt-4" id="equipmentTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="documents-tab" data-bs-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="true">Documentos</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="photos-tab" data-bs-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false">Fotos</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="accessories-tab" data-bs-toggle="tab" href="#accessories" role="tab" aria-controls="accessories" aria-selected="false">Acessórios</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="maintenances-tab" data-bs-toggle="tab" href="#maintenances" role="tab" aria-controls="maintenances" aria-selected="false">Manutenções</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="schedules-tab" data-bs-toggle="tab" href="#schedules" role="tab" aria-controls="schedules" aria-selected="false">Agenda</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="alerts-tab" data-bs-toggle="tab" href="#alerts" role="tab" aria-controls="alerts" aria-selected="false">Alertas</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="history-tab" data-bs-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">Histórico</a>
+          </li>
+        </ul>
+        <div class="tab-content mt-3" id="equipmentTabsContent">
+          <div class="tab-pane fade show active" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+            <%= render 'documents', equipment: @equipment, equipment_documents: @equipment_documents %>
+          </div>
+          <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
+            <%= render 'photos', equipment: @equipment, equipment_photos: @equipment_photos %>
+          </div>
+          <div class="tab-pane fade" id="accessories" role="tabpanel" aria-labelledby="accessories-tab">
+            <%= render 'accessories', equipment: @equipment, equipment_accessories: @equipment_accessories %>
+          </div>
+          <div class="tab-pane fade" id="maintenances" role="tabpanel" aria-labelledby="maintenances-tab">
+            <%= render 'maintenances', equipment: @equipment, equipment_maintenances: @equipment_maintenances %>
+          </div>
+          <div class="tab-pane fade" id="schedules" role="tabpanel" aria-labelledby="schedules-tab">
+            <%= render 'schedules', equipment: @equipment, equipment_maintenance_schedules: @equipment_maintenance_schedules %>
+          </div>
+          <div class="tab-pane fade" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
+            <%= render 'alerts', equipment: @equipment, equipment_maintenance_alerts: @equipment_maintenance_alerts %>
+          </div>
+          <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+            <%= render 'history', equipment: @equipment, equipment_maintenance_histories: @equipment_maintenance_histories %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

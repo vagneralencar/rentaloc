@@ -1,0 +1,130 @@
+/*
+RENTALOC System Flow Diagram
+
+This diagram represents the key components and flows of the RENTALOC application.
+It shows how different modules interact and the overall user journey through the system.
+*/
+
+@startuml RentalocSystemFlow
+
+' Define styles
+skinparam backgroundColor white
+skinparam componentStyle uml2
+skinparam arrowColor #333333
+skinparam componentBackgroundColor #FFFFFF
+skinparam componentBorderColor #999999
+skinparam noteBackgroundColor #FFFFCC
+skinparam noteBorderColor #999999
+
+' Title
+title RENTALOC System - Main Application Flow
+
+' Base components
+package "User Authentication" {
+  [Login] as login
+  [User Management] as userMgmt
+  [Roles & Permissions] as roles
+}
+
+package "Core Modules" {
+  [Dashboard] as dashboard
+  [Equipment Management] as equipMgmt
+  [Customer Management] as custMgmt
+  [Rental Management] as rentalMgmt
+  [Financial Module] as financeMod
+  [Service Orders] as serviceMgmt
+}
+
+package "Equipment Subsystem" {
+  [Equipment Inventory] as inventory
+  [Maintenance Tracking] as maintenance
+  [Documentation & Images] as docs
+  [Accessories] as accessories
+}
+
+package "Rental Process" {
+  [Rental Creation] as rentalCreate
+  [Approval Workflow] as approval
+  [Equipment Movements] as movements
+  [Billing & Invoicing] as billing
+  [Rental Completion] as completion
+}
+
+package "Financial Operations" {
+  [Invoice Management] as invoices
+  [Payment Tracking] as payments
+  [Financial Reports] as reports
+}
+
+' Relationships
+login --> dashboard : Authenticates
+
+dashboard --> equipMgmt : Navigate
+dashboard --> custMgmt : Navigate
+dashboard --> rentalMgmt : Navigate
+dashboard --> financeMod : Navigate
+dashboard --> serviceMgmt : Navigate
+
+equipMgmt --> inventory : Manages
+equipMgmt --> maintenance : Schedules
+equipMgmt --> docs : Attaches
+equipMgmt --> accessories : Configures
+
+rentalMgmt --> rentalCreate : Initiates
+rentalMgmt --> approval : Processes
+rentalMgmt --> movements : Tracks
+rentalMgmt --> billing : Generates
+rentalMgmt --> completion : Finalizes
+
+financeMod --> invoices : Creates
+financeMod --> payments : Records
+financeMod --> reports : Generates
+
+' Equipment-Rental relationship
+inventory <--> movements : Allocated for rental
+maintenance --> serviceMgmt : Creates service requests
+
+' Customer-Rental relationship
+custMgmt --> rentalCreate : Customer selected for rental
+
+' Financial flows
+billing --> invoices : Generates invoices
+invoices --> payments : Receives payments
+
+' Notes with detailed explanations
+note bottom of login
+  Users authenticate with email/password
+  Multi-tenant system with role-based access
+end note
+
+note right of equipMgmt
+  Complete equipment lifecycle management
+  - Equipment details, status tracking
+  - Maintenance scheduling
+  - Documentation/photos attachment
+end note
+
+note right of rentalMgmt
+  End-to-end rental process
+  - Equipment selection
+  - Approval workflow
+  - Movement tracking
+  - Billing management
+  - Rental completion
+end note
+
+note right of financeMod
+  Financial operations
+  - Invoice generation
+  - Payment recording
+  - Financial reporting
+end note
+
+note right of serviceMgmt
+  Service order management
+  - Creation from maintenance requests
+  - Execution tracking
+  - Completion and documentation
+end note
+
+@enduml

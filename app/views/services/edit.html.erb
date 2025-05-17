@@ -6,19 +6,30 @@
           <h3 class="card-title">Editar Serviço</h3>
         </div>
         <div class="card-body">
-          <%= render 'tabs', service: @service %>
-
           <%= form_with(model: @service, local: true) do |f| %>
-            <% case params[:aba] %>
-            <% when 'fiscal' %>
-              <%= render 'fiscal', f: f, service: @service %>
-            <% else %>
-              <%= render 'form', f: f, service: @service %>
-            <% end %>
-
+            <ul class="nav nav-tabs custom-tabs mb-3" id="serviceTabs" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="dados-gerais-tab" data-toggle="tab" href="#dados-gerais" role="tab" aria-controls="dados-gerais" aria-selected="true">
+                  <i class="bi bi-info-circle"></i> Dados Gerais
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="fiscal-tab" data-toggle="tab" href="#fiscal" role="tab" aria-controls="fiscal" aria-selected="false">
+                  <i class="bi bi-bank"></i> Fiscal
+                </a>
+              </li>
+            </ul>
+            <div class="tab-content" id="serviceTabsContent">
+              <div class="tab-pane fade show active" id="dados-gerais" role="tabpanel" aria-labelledby="dados-gerais-tab">
+                <%= render 'form', f: f, service: @service %>
+              </div>
+              <div class="tab-pane fade" id="fiscal" role="tabpanel" aria-labelledby="fiscal-tab">
+                <%= render 'fiscal', f: f, service: @service %>
+              </div>
+            </div>
           <% end %>
         </div>
       </div>
     </div>
   </div>
-</div> 
+</div>

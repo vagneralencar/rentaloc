@@ -1,6 +1,0 @@
-pt-BR:
-  devise:
-    failure:
-      unauthenticated: "Você precisa fazer login ou se registrar para continuar."
-    sessions:
-      signed_in: "Login realizado com sucesso."

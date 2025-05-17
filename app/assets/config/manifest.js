@@ -9,3 +9,4 @@
 //= link adminlte.js
 //= link select2.js
 //= link_directory ../stylesheets .css
+//= link application.bootstrap.scss

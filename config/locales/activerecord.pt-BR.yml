@@ -1,0 +1,13 @@
+pt-BR:
+  activerecord:
+    models:
+      service: "Serviço"
+    attributes:
+      service:
+        name: "Nome"
+    errors:
+      models:
+        service:
+          attributes:
+            name:
+              blank: "não pode ficar em branco"
